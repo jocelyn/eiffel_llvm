@@ -7,10 +7,17 @@ note
 class
 	SM_DIAGNOSTIC
 
+inherit
+
+	ANY
+		redefine
+			default_create
+		end
+
 create
 
 	make_from_pointer,
-	make
+	default_create
 
 feature {NONE}
 
@@ -19,13 +26,24 @@ feature {NONE}
 			item := item_a
 		end
 
-	make
+	default_create
 		do
-
+			item := ctor_external
 		end
 
 
 feature
 
 	item: POINTER
+
+feature {NONE} -- Externals
+
+	ctor_external: POINTER
+		external
+			"C++ inline use %"llvm/Support/SourceMgr.h%""
+		alias
+			"[
+				return new llvm::SMDiagnostic;
+			]"
+		end
 end

@@ -16,12 +16,10 @@ inherit
 
 feature
 
-	item_name: STRING
-		local
-			c_name: C_STRING
+	target: TARGET
 		do
-			create c_name.make_shared_from_pointer (item_name_external (item))
-			Result := c_name.string
+			create Result
+			item_external (item, Result.item)
 		end
 
 	forth
@@ -36,12 +34,12 @@ feature
 
 feature {NONE} -- Externals
 
-	item_name_external (item_a: POINTER): POINTER
+	item_external (item_a: POINTER; target_a: POINTER)
 		external
 			"C++ inline use %"llvm/Target/TargetRegistry.h%""
 		alias
 			"[
-				return (EIF_POINTER)(*((llvm::TargetRegistry::iterator *)$item_a))->getName ();
+				*((llvm::Target *)$target_a) = **((llvm::TargetRegistry::iterator *)$item_a);
 			]"
 		end
 
@@ -50,7 +48,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Target/TargetRegistry.h%""
 		alias
 			"[
-				*((llvm::TargetRegistry::iterator *)$item_a)++;
+				(*((llvm::TargetRegistry::iterator *)$item_a))++;
 			]"
 		end
 

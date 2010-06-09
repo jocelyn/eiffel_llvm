@@ -7,6 +7,13 @@ note
 class
 	TARGET
 
+inherit
+
+	ANY
+		undefine
+			default_create
+		end
+
 create
 
 	make_from_pointer,
@@ -17,6 +24,11 @@ feature {NONE}
 	make_from_pointer (item_a: POINTER)
 		do
 			item := item_a
+		end
+
+	default_create
+		do
+			item := ctor_external
 		end
 
 feature
@@ -31,7 +43,38 @@ feature
 			Result := name_c_string.string
 		end
 
+	create_target_machine (triple: STRING; features: STRING): TARGET_MACHINE
+		local
+			triple_c_string: C_STRING
+			features_c_string: C_STRING
+		do
+			create triple_c_string.make (triple)
+			create features_c_string.make (features)
+			create Result.make_from_pointer (create_target_machine_external (item, triple_c_string.item, features_c_string.item))
+		end
+
 feature {NONE} -- Externals
+
+	create_target_machine_external (item_a: POINTER; triple: POINTER; features: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Target/TargetRegistry.h%""
+		alias
+			"[
+				std::string triple ((const char *)$triple);
+				std::string features ((const char *)$features);
+				
+				return ((llvm::Target *)$item_a)->createTargetMachine (triple, features);		
+			]"
+		end
+
+	ctor_external: POINTER
+		external
+			"C++ inline use %"llvm/Target/TargetRegistry.h%""
+		alias
+			"[
+				return new llvm::Target;
+			]"
+		end
 
 	get_name_external (item_a: POINTER): POINTER
 		external
@@ -42,7 +85,7 @@ feature {NONE} -- Externals
 			]"
 		end
 
-feature {NONE} -- Implementation
+feature -- Implementation
 
 	item: POINTER
 end

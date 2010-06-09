@@ -7,9 +7,17 @@ note
 class
 	LLVM_CONTEXT
 
+inherit
+
+	ANY
+		undefine
+			default_create
+		end
+
 create
 
-	make_from_pointer
+	make_from_pointer,
+	default_create
 
 feature {NONE}
 
@@ -17,8 +25,24 @@ feature {NONE}
 		do
 			item := item_a
 		end
+		
+	default_create
+		do
+			item := ctor_external
+		end
 
 feature
 
 	item: POINTER
+
+feature {NONE} -- Externals
+
+	ctor_external: POINTER
+		external
+			"C++ inline use %"llvm/LLVMContext.h%""
+		alias
+			"[
+				return new llvm::LLVMContext;		
+			]"
+		end
 end
