@@ -6,29 +6,68 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<external_include location="/opt/local/include/"/>
-		<external_library location="/opt/local/lib/libLLVMTarget.a"/>
-		<external_library location="/opt/local/lib/libLLVMCore.a"/>
-		<external_library location="/opt/local/lib/libLLVMSupport.a"/>
-		<external_library location="/opt/local/lib/libLLVMSystem.a"/>
-		<external_library location="/opt/local/lib/libLLVMX86CodeGen.a"/>
-		<external_library location="/opt/local/lib/libLLVMCodeGen.a"/>
-		<external_library location="/opt/local/lib/libLLVMSelectionDAG.a"/>
-		<external_library location="/opt/local/lib/libLLVMAnalysis.a"/>
-		<external_library location="/opt/local/lib/libLLVMTransformUtils.a"/>
-		<external_library location="/opt/local/lib/libLLVMipa.a"/>
-		<external_library location="/opt/local/lib/libLLVMX86Info.a"/>
-		<external_library location="/opt/local/lib/libLLVMAlphaInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMAlphaAsmPrinter.a"/>
 		<external_library location="/opt/local/lib/libLLVMAlphaCodeGen.a"/>
-		<external_library location="/opt/local/lib/libLLVMSparcCodeGen.a"/>
-		<external_library location="/opt/local/lib/libLLVMSparcInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMAlphaInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMAnalysis.a"/>
+		<external_library location="/opt/local/lib/libLLVMArchive.a"/>
+		<external_library location="/opt/local/lib/libLLVMARMAsmPrinter.a"/>
+		<external_library location="/opt/local/lib/libLLVMARMCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMARMInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMAsmParser.a"/>
+		<external_library location="/opt/local/lib/libLLVMAsmPrinter.a"/>
+		<external_library location="/opt/local/lib/libLLVMBitReader.a"/>
+		<external_library location="/opt/local/lib/libLLVMBitWriter.a"/>
+		<external_library location="/opt/local/lib/libLLVMBlackfinAsmPrinter.a"/>
 		<external_library location="/opt/local/lib/libLLVMBlackfinCodeGen.a"/>
 		<external_library location="/opt/local/lib/libLLVMBlackfinInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMCBackend.a"/>
+		<external_library location="/opt/local/lib/libLLVMCBackendInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMCellSPUAsmPrinter.a"/>
+		<external_library location="/opt/local/lib/libLLVMCellSPUCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMCellSPUInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMCore.a"/>
 		<external_library location="/opt/local/lib/libLLVMCppBackend.a"/>
 		<external_library location="/opt/local/lib/libLLVMCppBackendInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMDebugger.a"/>
+		<external_library location="/opt/local/lib/libLLVMExecutionEngine.a"/>
+		<external_library location="/opt/local/lib/libLLVMInstrumentation.a"/>
+		<external_library location="/opt/local/lib/libLLVMInterpreter.a"/>
+		<external_library location="/opt/local/lib/libLLVMipa.a"/>
+		<external_library location="/opt/local/lib/libLLVMipo.a"/>
+		<external_library location="/opt/local/lib/libLLVMJIT.a"/>
+		<external_library location="/opt/local/lib/libLLVMLinker.a"/>
+		<external_library location="/opt/local/lib/libLLVMMC.a"/>
+		<external_library location="/opt/local/lib/libLLVMMipsCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMMipsInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMMSIL.a"/>
+		<external_library location="/opt/local/lib/libLLVMMSILInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMMSP430CodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMMSP430Info.a"/>
+		<external_library location="/opt/local/lib/libLLVMPIC16CodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMPIC16Info.a"/>
+		<external_library location="/opt/local/lib/libLLVMPowerPCCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMPowerPCInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMScalarOpts.a"/>
+		<external_library location="/opt/local/lib/libLLVMSelectionDAG.a"/>
+		<external_library location="/opt/local/lib/libLLVMSparcCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMSparcInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMSupport.a"/>
+		<external_library location="/opt/local/lib/libLLVMSystem.a"/>
+		<external_library location="/opt/local/lib/libLLVMSystemZCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMSystemZInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMTarget.a"/>
+		<external_library location="/opt/local/lib/libLLVMTransformUtils.a"/>
+		<external_library location="/opt/local/lib/libLLVMX86CodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMX86Info.a"/>
+		<external_library location="/opt/local/lib/libLLVMXCoreCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMXCoreInfo.a"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<cluster name="llvm_test" location=".\" recursive="true">
 			<file_rule>
+				<exclude>/.git$</exclude>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>

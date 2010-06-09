@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 			iterator: TARGET_REGISTRY_ITERATOR
 			name: STRING
 		do
+			tr.initialize_all_targets
 			target := tr.lookup_target ("i686-apple-darwin9")
 		end
 
