@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-6-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-6-0 http://www.eiffel.com/developers/xml/configuration-1-6-0.xsd" name="llvm_test" uuid="2EEC0A09-FC0F-493E-B2F9-78DAC4DF495C">
+	<target name="llvm_test">
+		<root class="APPLICATION" feature="make"/>
+		<option warning="true">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="/opt/local/include/"/>
+		<external_library location="/opt/local/lib/libLLVMTarget.a"/>
+		<external_library location="/opt/local/lib/libLLVMCore.a"/>
+		<external_library location="/opt/local/lib/libLLVMSupport.a"/>
+		<external_library location="/opt/local/lib/libLLVMSystem.a"/>
+		<external_library location="/opt/local/lib/libLLVMX86CodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMSelectionDAG.a"/>
+		<external_library location="/opt/local/lib/libLLVMAnalysis.a"/>
+		<external_library location="/opt/local/lib/libLLVMTransformUtils.a"/>
+		<external_library location="/opt/local/lib/libLLVMipa.a"/>
+		<external_library location="/opt/local/lib/libLLVMX86Info.a"/>
+		<external_library location="/opt/local/lib/libLLVMAlphaInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMAlphaCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMSparcCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMSparcInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMBlackfinCodeGen.a"/>
+		<external_library location="/opt/local/lib/libLLVMBlackfinInfo.a"/>
+		<external_library location="/opt/local/lib/libLLVMCppBackend.a"/>
+		<external_library location="/opt/local/lib/libLLVMCppBackendInfo.a"/>
+		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<cluster name="llvm_test" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="llvm_test_dotnet" extends="llvm_test">
+		<setting name="msil_generation" value="true"/>
+	</target>
+</system>
