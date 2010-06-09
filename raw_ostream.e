@@ -7,4 +7,7 @@ note
 class
 	RAW_OSTREAM
 
+feature
+
+	item: POINTER
 end
