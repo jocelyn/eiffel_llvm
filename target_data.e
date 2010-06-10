@@ -13,9 +13,15 @@ inherit
 
 create
 
-	make_module
+	make_module,
+	make_from_pointer
 
 feature {NONE}
+
+	make_from_pointer (item_a: POINTER)
+		do
+			item := item_a
+		end
 
 	make_module (m: MODULE)
 		do

@@ -20,11 +20,19 @@ feature {NONE}
 
 feature
 
+	get_target_data: TARGET_DATA
+		do
+			create Result.make_from_pointer (get_target_data_external (item))
+		end
+
 	add_passes_to_emit_file (manager: PASS_MANAGER_BASE; output: FORMATTED_RAW_OSTREAM; file_type: INTEGER_64; optimization_type: INTEGER_64; disable_verify: BOOLEAN)
 		local
-			success: BOOLEAN
+			failure: BOOLEAN
 		do
-			success := add_passes_to_emit_file_external (item, manager.item, output.item, file_type, optimization_type, disable_verify)
+			failure := add_passes_to_emit_file_external (item, manager.item, output.item, file_type, optimization_type, disable_verify)
+			if failure then
+				(create {EXCEPTION}).raise
+			end
 		end
 
 feature
@@ -32,6 +40,15 @@ feature
 	item: POINTER
 
 feature {NONE}
+
+	get_target_data_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Target/TargetMachine.h%""
+		alias
+			"[
+				return (EIF_POINTER)((llvm::TargetMachine *)$item_a)->getTargetData ();		
+			]"
+		end
 
 	add_passes_to_emit_file_external (item_a: POINTER; manager: POINTER; output: POINTER; file_type: INTEGER_64; optimization_type: INTEGER_64; disable_verify: BOOLEAN): BOOLEAN
 		external

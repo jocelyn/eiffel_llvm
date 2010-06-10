@@ -32,12 +32,41 @@ feature {NONE} -- Creation
 	parse_assembly (buffer: MEMORY_BUFFER; err: SM_DIAGNOSTIC; context: LLVM_CONTEXT)
 		do
 			item := parse_assembly_external (buffer.item, default_pointer, err.item, context.item)
+			if item = default_pointer then
+				(create {EXCEPTION}).raise
+			end
 		end
 
 feature
 
+	get_target_triple: STRING
+		local
+			c_result: C_STRING
+		do
+			create c_result.own_from_pointer (get_target_triple_external (item))
+			Result := c_result.string
+		end
+
 
 feature {NONE} -- Externals
+
+	get_target_triple_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				std::string triple;
+				char * result;
+				size_t result_size;
+				
+				triple = ((llvm::Module *)$item_a)->getTargetTriple ();
+				result_size = triple.length ();
+				result = (char *)malloc (result_size);
+				strncpy (result, triple.c_str (), result_size);
+				
+				return result;
+			]"
+		end
 
 	parse_assembly_external (buffer: POINTER; module: POINTER; err: POINTER; context: POINTER): POINTER
 		external
