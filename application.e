@@ -14,6 +14,22 @@ create
 
 feature {NONE} -- Initialization
 
+	make2
+		local
+			tr: TARGET_REGISTRY_CLASS
+			it: TARGET_REGISTRY_ITERATOR
+		do
+			tr.initialize_all_targets
+			from
+				it := tr.begin
+			until
+				it ~ tr.end_item
+			loop
+				io.put_string (it.target.get_name)
+				it.forth
+			end
+		end
+
 	make
 			-- Run application.
 		local
@@ -50,7 +66,7 @@ feature {NONE} -- Initialization
 			pm.add (td)
 			create verifier.verifier_pass
 			pm.add (verifier)
-			machine.add_passes_to_emit_file (pm, formatted_stream, 0, 2, True)
+			machine.add_passes_to_emit_file (pm, formatted_stream, 1, 2, True)
 			pm.run (module)
 			formatted_stream.dispose
 		end

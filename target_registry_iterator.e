@@ -61,14 +61,19 @@ feature {NONE} -- Externals
 			]"
 		end
 
-feature {NONE} -- Implementation
-
-	structure_size: INTEGER
+	structure_size_external: INTEGER
 		external
 			"C++ inline use %"llvm/Target/TargetRegistry.h%""
 		alias
 			"[
 				return sizeof (llvm::TargetRegistry::iterator);
 			]"
+		end
+
+feature {NONE} -- Implementation
+
+	structure_size: INTEGER
+		do
+			Result := structure_size_external
 		end
 end
