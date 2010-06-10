@@ -56,7 +56,6 @@
 		<external_library location="/usr/local/lib/libLLVMPIC16AsmPrinter.a"/>
 		<external_library location="/usr/local/lib/libLLVMPIC16CodeGen.a"/>
 		<external_library location="/usr/local/lib/libLLVMPIC16Info.a"/>
-		<external_library location="/usr/local/lib/libLLVMPIC16passes.a"/>
 		<external_library location="/usr/local/lib/libLLVMPowerPCAsmPrinter.a"/>
 		<external_library location="/usr/local/lib/libLLVMPowerPCCodeGen.a"/>
 		<external_library location="/usr/local/lib/libLLVMPowerPCInfo.a"/>

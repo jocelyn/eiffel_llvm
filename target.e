@@ -53,7 +53,26 @@ feature
 			create Result.make_from_pointer (create_target_machine_external (item, triple_c_string.item, features_c_string.item))
 		end
 
+	create_asm_info (triple: STRING): MC_ASM_INFO
+		local
+			triple_c_string: C_STRING
+		do
+			create triple_c_string.make (triple)
+			create Result.make_from_pointer (create_asm_info_external (item, triple_c_string.item));
+		end
+
 feature {NONE} -- Externals
+
+	create_asm_info_external (item_a: POINTER; triple: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Target/TargetRegistry.h%""
+		alias
+			"[
+				std::string triple ((const char *)$triple);
+				
+				return ((llvm::Target *)$item_a)->createAsmInfo (triple);		
+			]"
+		end
 
 	create_target_machine_external (item_a: POINTER; triple: POINTER; features: POINTER): POINTER
 		external
@@ -63,7 +82,7 @@ feature {NONE} -- Externals
 				std::string triple ((const char *)$triple);
 				std::string features ((const char *)$features);
 				
-				return ((llvm::Target *)$item_a)->createTargetMachine (triple, features);		
+				return ((llvm::Target *)$item_a)->createTargetMachine (triple, features);
 			]"
 		end
 

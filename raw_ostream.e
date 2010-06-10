@@ -17,22 +17,34 @@ feature
 
 feature
 
-	dispose
+	flush
 		do
-			if item /= default_pointer then
-				delete (item)
-				item := default_pointer
-			end
+			flush_external (item)
 		end
 
 feature {NONE} -- Externals
+
+	dispose
+		do
+			delete (item)
+			item := default_pointer
+		end
+
+	flush_external (item_a: POINTER)
+		external
+			"C++ inline use %"llvm/Support/FormattedStream.h%""
+		alias
+			"[
+				((llvm::raw_ostream *)$item_a)->flush ();
+			]"
+		end
 
 	delete (item_a: POINTER)
 		external
 			"C++ inline use %"llvm/Support/FormattedStream.h%""
 		alias
 			"[
-				delete (llvm::raw_ostream *)$item_a;		
+				delete (llvm::raw_ostream *)$item_a;
 			]"
 		end
 end
