@@ -36,10 +36,13 @@ feature
 
 	string: STRING
 		local
-			result_c_string: C_STRING
+			c_str: POINTER
+			length_l: INTEGER
 		do
-			create result_c_string.make_shared_from_pointer (c_str_external (item))
-			Result := result_c_string.string
+			c_str := c_str_external (item)
+			length_l := length
+			create Result.make_filled ('%U', length_l)
+			Result.area.base_address.memory_copy (c_str, length_l)
 		end
 
 	length: INTEGER
@@ -58,7 +61,7 @@ feature {NONE} -- Externals
 			"C++ inline use <string>"
 		alias
 			"[
-				return ((std::string *)$item_a)->length ();		
+				return ((std::string *)$item_a)->length ();
 			]"
 		end
 
@@ -67,7 +70,7 @@ feature {NONE} -- Externals
 			"C++ inline use <string>"
 		alias
 			"[
-				return new std::string ($size, $char);		
+				return new std::string ($size, $char);
 			]"
 		end
 
@@ -85,7 +88,7 @@ feature {NONE} -- Externals
 			"C++ inline use <string>"
 		alias
 			"[
-				return (EIF_POINTER)((std::string *)$item_a)->c_str ();		
+				return (EIF_POINTER)((std::string *)$item_a)->c_str ();
 			]"
 		end
 end

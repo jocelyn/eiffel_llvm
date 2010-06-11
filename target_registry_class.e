@@ -19,6 +19,11 @@ feature
 			initialize_all_asm_printers_external
 		end
 
+	initialize_all_asm_parsers
+		do
+			initialize_all_asm_parsers_external
+		end
+
 	lookup_target (triple: STRING): TARGET
 		local
 			error_pointer: POINTER
@@ -52,12 +57,21 @@ feature
 
 feature {NONE} -- Externals
 
+	initialize_all_asm_parsers_external
+		external
+			"C++ inline use %"llvm/Target/TargetSelect.h%""
+		alias
+			"[
+				llvm::InitializeAllAsmParsers ();
+			]"
+		end
+
 	initialize_all_asm_printers_external
 		external
 			"C++ inline use %"llvm/Target/TargetSelect.h%""
 		alias
 			"[
-				llvm::InitializeAllAsmPrinters ();		
+				llvm::InitializeAllAsmPrinters ();
 			]"
 		end
 
