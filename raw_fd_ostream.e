@@ -23,8 +23,24 @@ feature {NONE}
 			create filename_c_string.make (filename)
 			item := ctor_filename_error_info (filename_c_string.item)
 		end
+		
+feature
+
+	close
+		do
+			close_external (item)
+		end
 
 feature {NONE} -- Externals
+
+	close_external (item_a: POINTER)
+		external
+			"C++ inline use %"llvm/Support/FormattedStream.h%""
+		alias
+			"[
+				((llvm::raw_fd_ostream *)$item_a)->close ();
+			]"
+		end
 
 	ctor_filename_error_info (filename: POINTER): POINTER
 		external
@@ -33,7 +49,7 @@ feature {NONE} -- Externals
 			"[
 				std::string error;
 				
-				return new llvm::raw_fd_ostream ((const char *)$filename, error);
+				return new llvm::raw_fd_ostream ((const char *)$filename, error, 4);
 			]"
 		end
 

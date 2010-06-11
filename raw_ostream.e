@@ -22,7 +22,21 @@ feature
 			flush_external (item)
 		end
 
+	set_unbuffered
+		do
+			set_unbuffered_external (item)
+		end
+
 feature {NONE} -- Externals
+
+	set_unbuffered_external (item_a: POINTER)
+		external
+			"C++ inline use %"llvm/Support/FormattedStream.h%""
+		alias
+			"[
+				((llvm::raw_ostream *)$item_a)->SetUnbuffered ();
+			]"
+		end
 
 	dispose
 		do

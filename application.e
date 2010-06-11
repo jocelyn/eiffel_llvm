@@ -63,6 +63,8 @@ feature {NONE} -- Initialization
 			tap: TARGET_ASM_PARSER
 			res: STRING
 			output_file: RAW_FILE
+			bc_buffer: RAW_STRING_OSTREAM
+			bc_file: RAW_FILE
 		do
 			io.put_string ("")
 			tr.initialize_all_targets
@@ -73,6 +75,12 @@ feature {NONE} -- Initialization
 			create diag
 			create context
 			create module.parse_assembly (buff, diag, context)
+			create bc_buffer.make
+			module.write_bit_code_to_file (bc_buffer)
+			bc_buffer.flush
+			create bc_file.make_open_write ("/Users/colinlemahieu/Desktop/hello.bc")
+			bc_file.put_string (bc_buffer.string)
+			bc_file.close
 			triple_string := module.get_target_triple
 			target := tr.lookup_target (triple_string)
 			machine := target.create_target_machine (triple_string, "")
@@ -84,13 +92,13 @@ feature {NONE} -- Initialization
 			pm.add (td)
 			create verifier.verifier_pass
 			pm.add (verifier)
-			machine.add_passes_to_emit_file (pm, formatted_stream, 1, 2, True)
+			machine.add_passes_to_emit_file (pm, formatted_stream, 0, 2, True)
 			pm.run (module)
 			formatted_stream.flush
 --			io.put_string (fd_stream.string)
-			create output_file.make_open_write ("/Users/clemahieu/Desktop/hello e bc.o")
-			output_file.put_string (fd_stream.string)
-			output_file.close
+--			create output_file.make_open_write ("/Users/clemahieu/Desktop/hello e bc.o")
+--			output_file.put_string (fd_stream.string)
+--			output_file.close
 --			formatted_stream.dispose
 			create assembly_buffer.get_mem_buffer_copy (fd_stream.string)
 			create src_mgr.make
@@ -109,7 +117,7 @@ feature {NONE} -- Initialization
 			parser.run (False)
 			output_buffer.flush
 			res := binary_buffer.string
-			create output_file.make_open_write ("/Users/clemahieu/Desktop/hello e obj.o")
+			create output_file.make_open_write ("/Users/colinlemahieu/Desktop/hello e obj.o")
 			output_file.put_string (res)
 			output_file.close
 		end

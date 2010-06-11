@@ -47,8 +47,22 @@ feature
 			Result := c_result.string
 		end
 
+	write_bit_code_to_file (output: RAW_OSTREAM)
+		do
+			write_bit_code_to_file_external (item, output.item)
+		end
+
 
 feature {NONE} -- Externals
+
+	write_bit_code_to_file_external (item_a: POINTER; output: POINTER)
+		external
+			"C++ inline use %"llvm/Bitcode/ReaderWriter.h%""
+		alias
+			"[
+				llvm::WriteBitcodeToFile (((llvm::Module *)$item_a), *((llvm::raw_ostream *)$output));
+			]"
+		end
 
 	get_target_triple_external (item_a: POINTER): POINTER
 		external
