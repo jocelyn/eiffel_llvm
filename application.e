@@ -53,10 +53,21 @@ feature {NONE} -- Initialization
 			assembly_buffer: MEMORY_BUFFER
 			binary_buffer: RAW_STRING_OSTREAM
 			output_buffer: FORMATTED_RAW_OSTREAM
+			src_mgr: SOURCE_MGR
+			mai: MC_ASM_INFO
+			ctx: MC_CONTEXT
+			ce: MC_CODE_EMITTER
+			tab: TARGET_ASM_BACKEND
+			str: MC_STREAMER
+			parser: ASM_PARSER
+			tap: TARGET_ASM_PARSER
+			res: STRING
+			output_file: RAW_FILE
 		do
 			io.put_string ("")
 			tr.initialize_all_targets
 			tr.initialize_all_asm_printers
+			tr.initialize_all_asm_parsers
 			--create buff.get_file ("/Users/colinlemahieu/Desktop/test.o.ll")
 			create buff.get_mem_buffer_copy (assembly_code)
 			create diag
@@ -79,22 +90,42 @@ feature {NONE} -- Initialization
 			io.put_string (fd_stream.string)
 --			formatted_stream.dispose
 			create assembly_buffer.get_mem_buffer_copy (fd_stream.string)
-
+			create src_mgr.make
+			src_mgr.add_new_source_buffer (assembly_buffer, create {SM_LOC}.make)
+			src_mgr.set_include_dirs (create {CPP_STRING_VECTOR}.make)
+			mai := target.create_asm_info (triple_string)
+			create ctx.make (mai)
+			create binary_buffer.make
+			create output_buffer.make_raw_ostream (binary_buffer)
+			ce := target.create_code_emitter (machine, ctx)
+			tab := target.create_asm_backend (triple_string)
+			str := target.create_object_streamer (triple_string, ctx, tab, output_buffer, ce, False)
+			create parser.make (src_mgr, ctx, str, mai)
+			tap := target.create_asm_parser (parser)
+			parser.set_target_parser (tap)
+			parser.run (False)
+			output_buffer.flush
+			res := binary_buffer.string
+			create output_file.make_open_write ("/Users/clemahieu/Desktop/hello.o")
+			output_file.put_string (res)
+			output_file.close
 		end
 
 	assembly_code: STRING =
 		"[
-; ModuleID = 'test.c'
+; ModuleID = 'hello.c'
 target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64"
 target triple = "x86_64-apple-darwin10.3"
+
+@.str = private constant [12 x i8] c"Hello world\00", align 1 ; <[12 x i8]*> [#uses=1]
 
 define i32 @main() nounwind ssp {
 entry:
   %retval = alloca i32                            ; <i32*> [#uses=2]
   %0 = alloca i32                                 ; <i32*> [#uses=2]
   %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
-  %1 = call i32 (...)* @rand1() nounwind          ; <i32> [#uses=1]
-  store i32 %1, i32* %0, align 4
+  %1 = call i32 @puts(i8* getelementptr inbounds ([12 x i8]* @.str, i64 0, i64 0)) nounwind ; <i32> [#uses=0]
+  store i32 0, i32* %0, align 4
   %2 = load i32* %0, align 4                      ; <i32> [#uses=1]
   store i32 %2, i32* %retval, align 4
   br label %return
@@ -104,7 +135,7 @@ return:                                           ; preds = %entry
   ret i32 %retval1
 }
 
-declare i32 @rand1(...)
+declare i32 @puts(i8*)
 		]"
 
 end

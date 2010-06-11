@@ -7,6 +7,10 @@ note
 class
 	ASM_PARSER
 
+inherit
+
+	MC_ASM_PARSER
+
 create
 
 	make
@@ -25,11 +29,23 @@ feature
 			set_target_parser_external (item, p.item)
 		end
 
-feature
-
-	item: POINTER
+	run (no_initial_text_section: BOOLEAN)
+		local
+			failed: BOOLEAN
+		do
+			failed := run_external (item, no_initial_text_section)
+		end
 
 feature {NONE}
+
+	run_external (item_a: POINTER; no_initial_text_section: BOOLEAN): BOOLEAN
+		external
+			"C++ inline use %"llvm/Target/TargetAsmParser.h%""
+		alias
+			"[
+				return ((llvm::AsmParser *)$item_a)->Run ((bool)$no_initial_text_section);
+			]"
+		end
 
 	set_target_parser_external (item_a: POINTER; p: POINTER)
 		external
