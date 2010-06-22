@@ -14,7 +14,6 @@
 		<external_library location="/usr/local/lib/libLLVMARMAsmParser.a"/>
 		<external_library location="/usr/local/lib/libLLVMARMAsmPrinter.a"/>
 		<external_library location="/usr/local/lib/libLLVMARMCodeGen.a"/>
-		<external_library location="/usr/local/lib/libLLVMARMDisassembler.a"/>
 		<external_library location="/usr/local/lib/libLLVMARMInfo.a"/>
 		<external_library location="/usr/local/lib/libLLVMAsmParser.a"/>
 		<external_library location="/usr/local/lib/libLLVMAsmPrinter.a"/>

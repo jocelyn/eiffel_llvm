@@ -33,7 +33,7 @@ feature {NONE}
 			buffer_c_string: C_STRING
 		do
 			create buffer_c_string.make (buffer)
-			item := get_mem_buffer_copy_external (buffer_c_string.item)
+			item := get_mem_buffer_copy_external (buffer_c_string.item, buffer_c_string.item.plus (buffer_c_string.bytes_count))
 		end
 
 feature
@@ -49,15 +49,12 @@ feature
 
 feature {NONE} -- Externals
 
-	get_mem_buffer_copy_external (buffer: POINTER): POINTER
+	get_mem_buffer_copy_external (buffer: POINTER; buffer_end: POINTER): POINTER
 		external
 			"C++ inline use %"llvm/Support/MemoryBuffer.h%", %"llvm/ADT/StringRef.h%""
 		alias
 			"[
-				llvm::StringRef buffer ((const char *)$buffer);
-				llvm::MemoryBuffer * result;
-						
-				return llvm::MemoryBuffer::getMemBufferCopy (buffer);
+				return llvm::MemoryBuffer::getMemBufferCopy ((const char *)$buffer, (const char *)$buffer_end);
 			]"
 		end
 

@@ -9,11 +9,22 @@ class
 
 create
 
+	make,
 	make_from_pointer,
 --	parse_ir_file
 	parse_assembly
 
 feature {NONE} -- Creation
+
+	make (module_id: STRING; context: LLVM_CONTEXT)
+		local
+			module_id_c_string: C_STRING
+			module_id_str_ref: STRING_REF
+		do
+			create module_id_c_string.make (module_id)
+			create module_id_str_ref.make (module_id_c_string.item)
+
+		end
 
 	make_from_pointer (item_a: POINTER)
 		do
@@ -52,8 +63,33 @@ feature
 			write_bit_code_to_file_external (item, output.item)
 		end
 
+	module_identifier: STRING
+		local
+			external_string: CPP_STRING
+		do
+			create external_string.make
+			module_identifier_external (item, external_string.item)
+		end
 
 feature {NONE} -- Externals
+
+	ctor_external (module_id: POINTER; context: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				return new llvm::Module (*((llvm::StringRef *)$module_id), *((llvm::LLVMContext *)$context))
+			]"
+		end
+
+	module_identifier_external (item_a: POINTER; target_a: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				*((std::string *)$target_a) = ((llvm::Module *)$item_a)->getModuleIdentifier ();
+			]"
+		end
 
 	write_bit_code_to_file_external (item_a: POINTER; output: POINTER)
 		external

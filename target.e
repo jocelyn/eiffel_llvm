@@ -66,21 +66,21 @@ feature
 			create Result.make_from_pointer (create_code_emitter_external (item, tm.item, ctx.item))
 		end
 
-	create_asm_backend (triple: STRING): TARGET_ASM_BACKEND
-		local
-			triple_c_string: C_STRING
-		do
-			create triple_c_string.make (triple)
-			create Result.make_from_pointer (create_asm_backend_external (item, triple_c_string.item))
-		end
+--	create_asm_backend (triple: STRING): TARGET_ASM_BACKEND
+--		local
+--			triple_c_string: C_STRING
+--		do
+--			create triple_c_string.make (triple)
+--			create Result.make_from_pointer (create_asm_backend_external (item, triple_c_string.item))
+--		end
 
-	create_object_streamer (tt: STRING; ctx: MC_CONTEXT; tab: TARGET_ASM_BACKEND; os: RAW_OSTREAM; emitter: MC_CODE_EMITTER; relax_all: BOOLEAN): MC_STREAMER
-		local
-			triple_c_string: C_STRING
-		do
-			create triple_c_string.make (tt)
-			create Result.make_from_pointer (create_object_streamer_external (item, triple_c_string.item, ctx.item, tab.item, os.item, emitter.item, relax_all))
-		end
+--	create_object_streamer (tt: STRING; ctx: MC_CONTEXT; tab: TARGET_ASM_BACKEND; os: RAW_OSTREAM; emitter: MC_CODE_EMITTER; relax_all: BOOLEAN): MC_STREAMER
+--		local
+--			triple_c_string: C_STRING
+--		do
+--			create triple_c_string.make (tt)
+--			create Result.make_from_pointer (create_object_streamer_external (item, triple_c_string.item, ctx.item, tab.item, os.item, emitter.item, relax_all))
+--		end
 
 	create_asm_parser (parser: MC_ASM_PARSER): TARGET_ASM_PARSER
 		do
@@ -94,31 +94,31 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Target/TargetRegistry.h%""
 		alias
 			"[
-				return ((llvm::Target *)$item_a)->createAsmParser (*((llvm::MCAsmParser *)$parser));		
+				return ((llvm::Target *)$item_a)->createAsmParser (*((llvm::MCAsmParser *)$parser));
 			]"
 		end
 
-	create_object_streamer_external (item_a: POINTER; tt: POINTER; ctx: POINTER; tab: POINTER; os: POINTER; emitter: POINTER; relax_all: BOOLEAN): POINTER
-		external
-			"C++ inline use %"llvm/Target/TargetRegistry.h%""
-		alias
-			"[
-				std::string tt ((const char *)$tt);
-				
-				return ((llvm::Target *)$item_a)->createObjectStreamer (tt, *((llvm::MCContext *)$ctx), *((llvm::TargetAsmBackend *)$tab), *((llvm::raw_ostream *)$os), ((llvm::MCCodeEmitter *)$emitter), (bool)$relax_all);
-			]"
-		end
+--	create_object_streamer_external (item_a: POINTER; tt: POINTER; ctx: POINTER; tab: POINTER; os: POINTER; emitter: POINTER; relax_all: BOOLEAN): POINTER
+--		external
+--			"C++ inline use %"llvm/Target/TargetRegistry.h%""
+--		alias
+--			"[
+--				std::string tt ((const char *)$tt);
+--				
+--				return ((llvm::Target *)$item_a)->createObjectStreamer (tt, *((llvm::MCContext *)$ctx), *((llvm::TargetAsmBackend *)$tab), *((llvm::raw_ostream *)$os), ((llvm::MCCodeEmitter *)$emitter), (bool)$relax_all);
+--			]"
+--		end
 
-	create_asm_backend_external (item_a: POINTER; triple: POINTER): POINTER
-		external
-			"C++ inline use %"llvm/Target/TargetRegistry.h%""
-		alias
-			"[
-				std::string triple ((const char *)$triple);
-				
-				return ((llvm::Target *)$item_a)->createAsmBackend (triple);
-			]"
-		end
+--	create_asm_backend_external (item_a: POINTER; triple: POINTER): POINTER
+--		external
+--			"C++ inline use %"llvm/Target/TargetRegistry.h%""
+--		alias
+--			"[
+--				std::string triple ((const char *)$triple);
+--				
+--				return ((llvm::Target *)$item_a)->createAsmBackend (triple);
+--			]"
+--		end
 
 	create_code_emitter_external (item_a: POINTER; tm: POINTER; ctx: POINTER): POINTER
 		external
@@ -136,7 +136,7 @@ feature {NONE} -- Externals
 			"[
 				std::string triple ((const char *)$triple);
 				
-				return ((llvm::Target *)$item_a)->createAsmInfo (triple);
+				return (EIF_POINTER)((llvm::Target *)$item_a)->createAsmInfo (triple);
 			]"
 		end
 

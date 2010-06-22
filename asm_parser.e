@@ -29,21 +29,21 @@ feature
 			set_target_parser_external (item, p.item)
 		end
 
-	run (no_initial_text_section: BOOLEAN)
+	run
 		local
 			failed: BOOLEAN
 		do
-			failed := run_external (item, no_initial_text_section)
+			failed := run_external (item)
 		end
 
 feature {NONE}
 
-	run_external (item_a: POINTER; no_initial_text_section: BOOLEAN): BOOLEAN
+	run_external (item_a: POINTER): BOOLEAN
 		external
 			"C++ inline use %"llvm/Target/TargetAsmParser.h%""
 		alias
 			"[
-				return ((llvm::AsmParser *)$item_a)->Run ((bool)$no_initial_text_section);
+				return ((llvm::AsmParser *)$item_a)->Run ();
 			]"
 		end
 

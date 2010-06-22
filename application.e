@@ -105,16 +105,16 @@ feature {NONE} -- Initialization
 			src_mgr.add_new_source_buffer (assembly_buffer, create {SM_LOC}.make)
 			src_mgr.set_include_dirs (create {CPP_STRING_VECTOR}.make)
 			mai := target.create_asm_info (triple_string)
-			create ctx.make (mai)
+--			create ctx.make (mai)
 			create binary_buffer.make
 			create output_buffer.make_raw_ostream (binary_buffer)
 			ce := target.create_code_emitter (machine, ctx)
-			tab := target.create_asm_backend (triple_string)
-			str := target.create_object_streamer (triple_string, ctx, tab, output_buffer, ce, False)
+--			tab := target.create_asm_backend (triple_string)
+--			str := target.create_object_streamer (triple_string, ctx, tab, output_buffer, ce, False)
 			create parser.make (src_mgr, ctx, str, mai)
 			tap := target.create_asm_parser (parser)
 			parser.set_target_parser (tap)
-			parser.run (False)
+			parser.run
 			output_buffer.flush
 			res := binary_buffer.string
 			create output_file.make_open_write ("/Users/colinlemahieu/Desktop/hello e obj.o")

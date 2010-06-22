@@ -13,9 +13,9 @@ create
 
 feature {NONE}
 
-	make (mai: MC_ASM_INFO)
+	make
 		do
-			item := ctor_external (mai.item)
+			item := ctor_external ()
 		end
 
 feature
@@ -24,12 +24,12 @@ feature
 
 feature {NONE} -- Externals
 
-	ctor_external (mai: POINTER): POINTER
+	ctor_external: POINTER
 		external
 			"C++ inline use %"llvm/MC/MCContext.h%""
 		alias
 			"[
-				return new llvm::MCContext (*((llvm::MCAsmInfo *)$mai));
+				return new llvm::MCContext ();
 			]"
 		end
 end
