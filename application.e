@@ -122,6 +122,9 @@ feature {NONE} -- Initialization
 			output_file.close
 		end
 
+	fun: detachable FUNCTION
+	int: detachable INTEGER_TYPE
+
 	assembly_code: STRING =
 		"[
 ; ModuleID = 'hello.c'

@@ -17,8 +17,8 @@ feature {NONE}
 		do
 			item := ctor_external (c_string_a)
 		end
-		
-feature {NONE}
+
+feature
 
 	item: POINTER
 
@@ -29,7 +29,7 @@ feature {NONE}
 			"C++ inline use %"llvm/ADT/StringRef.h%""
 		alias
 			"[
-				return new llvm::StringRef ((const char *)$c_string_a);		
+				return new llvm::StringRef ((const char *)$c_string_a);
 			]"
 		end
 end

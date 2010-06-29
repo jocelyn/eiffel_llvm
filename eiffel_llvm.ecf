@@ -2,7 +2,7 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-6-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-6-0 http://www.eiffel.com/developers/xml/configuration-1-6-0.xsd" name="eiffel_llvm" uuid="2EEC0A09-FC0F-493E-B2F9-78DAC4DF495C">
 	<target name="eiffel_llvm">
 		<root class="APPLICATION" feature="make"/>
-		<option warning="true">
+		<option warning="true" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<external_include location="/usr/local/include/"/>
@@ -79,7 +79,10 @@
 		<external_library location="/usr/local/lib/libLLVMXCoreCodeGen.a"/>
 		<external_library location="/usr/local/lib/libLLVMXCoreInfo.a"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf">
+			<renaming old_name="TYPE" new_name="TYPE_EIF"/>
+			<renaming old_name="FUNCTION" new_name="FUNCTION_EIF"/>
+		</library>
 		<cluster name="eiffel_llvm" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>

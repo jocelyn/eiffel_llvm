@@ -23,7 +23,7 @@ feature {NONE} -- Creation
 		do
 			create module_id_c_string.make (module_id)
 			create module_id_str_ref.make (module_id_c_string.item)
-
+			item := ctor_external (module_id_str_ref.item, context.item)
 		end
 
 	make_from_pointer (item_a: POINTER)
@@ -50,6 +50,27 @@ feature {NONE} -- Creation
 
 feature
 
+	function_list_push_back (v: FUNCTION)
+		do
+			function_list_push_back_external (item, v.item)
+		end
+
+--	get_function_list: FUNCTION_LIST_TYPE
+--		do
+--			create Result.make
+--			get_function_list_external (item, Result.item)
+--		end
+
+	get_or_insert_function_with_type (name: STRING; t: FUNCTION_TYPE): CONSTANT
+		local
+			name_c_string: C_STRING
+			name_string_ref: STRING_REF
+		do
+			create name_c_string.make (name)
+			create name_string_ref.make (name_c_string.item)
+			create Result.make_from_pointer (get_or_insert_function_with_type_external (item, name_string_ref.item, t.item))
+		end
+
 	get_target_triple: STRING
 		local
 			c_result: C_STRING
@@ -72,6 +93,33 @@ feature
 		end
 
 feature {NONE} -- Externals
+
+	function_list_push_back_external (item_a: POINTER; v: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				((llvm::Module *)$item_a)->getFunctionList ().push_back ((llvm::Function *)$v);
+			]"
+		end
+
+--	get_function_list_external (item_a: POINTER; target: POINTER)
+--		external
+--			"C++ inline use %"llvm/Module.h%""
+--		alias
+--			"[
+--				*((llvm::Module::FunctionListType *)$target) = ((llvm::Module *)$item_a)->getFunctionList ();		
+--			]"
+--		end
+
+	get_or_insert_function_with_type_external (item_a: POINTER; name: POINTER; t: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Module.h%", %"llvm/ADT/StringRef.h%", %"llvm/DerivedTypes.h%""
+		alias
+			"[
+				return ((llvm::Module *)$item_a)->getOrInsertFunction (*((llvm::StringRef *)$name), (llvm::FunctionType *)$t);
+			]"
+		end
 
 	ctor_external (module_id: POINTER; context: POINTER): POINTER
 		external
