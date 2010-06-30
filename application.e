@@ -124,6 +124,7 @@ feature {NONE} -- Initialization
 
 	fun: detachable FUNCTION
 	int: detachable INTEGER_TYPE
+	a_inst: detachable ALLOCA_INST
 
 	assembly_code: STRING =
 		"[
