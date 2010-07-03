@@ -57,7 +57,7 @@ feature {NONE} -- Creation
 
 feature
 
-	function_list_push_back (v: FUNCTION)
+	function_list_push_back (v: FUNCTION_L)
 		do
 			function_list_push_back_external (item, v.item)
 		end

@@ -19,7 +19,7 @@ create
 
 feature {NONE}
 
-	make_with_parameters (return_type: TYPE; parameters: LIST [TYPE])
+	make_with_parameters (return_type: TYPE_L; parameters: LIST [TYPE_L])
 		local
 			parameters_vector: TYPE_VECTOR
 		do
@@ -28,7 +28,7 @@ feature {NONE}
 			item := get_with_parameters_external (return_type.item, parameters_vector.item)
 		end
 
-	make_without_parameters (return_type: TYPE)
+	make_without_parameters (return_type: TYPE_L)
 		do
 			item := get_without_parameters_external (return_type.item)
 		end

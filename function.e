@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 class
-	FUNCTION
+	FUNCTION_L
 
 inherit
 	GLOBAL_VALUE

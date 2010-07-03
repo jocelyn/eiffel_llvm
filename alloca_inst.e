@@ -22,32 +22,32 @@ create
 
 feature {NONE}
 
-	make_type (ty: TYPE)
+	make_type (ty: TYPE_L)
 		do
 			item := make_type_external (ty.item)
 		end
 
-	make_type_name (ty: TYPE; name: TWINE)
+	make_type_name (ty: TYPE_L; name: TWINE)
 		do
 			item := make_type_name_external (ty.item, name.item)
 		end
 
-	make_type_array (ty: TYPE; array_size: VALUE)
+	make_type_array (ty: TYPE_L; array_size: VALUE)
 		do
 			item := make_type_array_external (ty.item, array_size.item)
 		end
 
-	make_type_array_name (ty: TYPE; array_size: VALUE; name: TWINE)
+	make_type_array_name (ty: TYPE_L; array_size: VALUE; name: TWINE)
 		do
 			item := make_type_array_name_external (ty.item, array_size.item, name.item)
 		end
 
-	make_type_array_align (ty: TYPE; array_size: VALUE; align: NATURAL_32)
+	make_type_array_align (ty: TYPE_L; array_size: VALUE; align: NATURAL_32)
 		do
 			item := make_type_array_align_external (ty.item, array_size.item, align)
 		end
 
-	make_type_array_align_name (ty: TYPE; array_size: VALUE; align: NATURAL_32; name: TWINE)
+	make_type_array_align_name (ty: TYPE_L; array_size: VALUE; align: NATURAL_32; name: TWINE)
 		do
 			item := make_type_array_align_name_external (ty.item, array_size.item, align, name.item)
 		end

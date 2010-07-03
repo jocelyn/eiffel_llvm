@@ -8,6 +8,6 @@ class
 	DERIVED_TYPE
 
 inherit
-	TYPE
+	TYPE_L
 
 end

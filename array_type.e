@@ -16,7 +16,7 @@ create
 
 feature
 
-	make (element_type: TYPE; num_elements: NATURAL_64)
+	make (element_type: TYPE_L; num_elements: NATURAL_64)
 		do
 			item := make_external (element_type.item, num_elements)
 		end

@@ -44,7 +44,7 @@ feature {NONE} -- Externals
 
 	make_external (ptr: POINTER): POINTER
 		external
-			"C++ inline use %"llvm/Instruction.h%""
+			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
 				return new llvm::LoadInst ((llvm::Value *)$ptr);
@@ -53,7 +53,7 @@ feature {NONE} -- Externals
 
 	make_name_external (ptr: POINTER; name: POINTER): POINTER
 		external
-			"C++ inline use %"llvm/Instruction.h%""
+			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
 				return new llvm::LoadInst ((llvm::Value *)$ptr, *((llvm::Twine *)$name));
@@ -62,7 +62,7 @@ feature {NONE} -- Externals
 
 	make_name_volatile_external (ptr: POINTER; name: POINTER; volatile: BOOLEAN): POINTER
 		external
-			"C++ inline use %"llvm/Instruction.h%""
+			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
 				return new llvm::LoadInst ((llvm::Value *)$ptr, *((llvm::Twine *)$name), $volatile);
@@ -71,7 +71,7 @@ feature {NONE} -- Externals
 
 	make_name_volatile_align_external (ptr: POINTER; name: POINTER; volatile: BOOLEAN; align: NATURAL_32): POINTER
 		external
-			"C++ inline use %"llvm/Instruction.h%""
+			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
 				return new llvm::LoadInst ((llvm::Value *)$ptr, *((llvm::Twine *)$name), $volatile, $align);

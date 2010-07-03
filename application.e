@@ -23,14 +23,21 @@ feature {NONE} -- Initialization
 			int_t: INTEGER_TYPE
 			str_t: ARRAY_TYPE
 			str_values: SPECIAL [CONSTANT]
-			main: FUNCTION
-			puts: FUNCTION
+			main: FUNCTION_L
+			puts: FUNCTION_L
 			entry: BASIC_BLOCK
 			return: BASIC_BLOCK
 			retval: ALLOCA_INST
 			call: CALL_INST
+			call_arguments: VALUE_VECTOR
 			br: BRANCH_INST
 			output: RAW_FD_OSTREAM
+			attributes: ATTRIBUTES
+			return_inst: RETURN_INST
+			load: LOAD_INST
+			puts_parameters: LIST [TYPE_L]
+			get_inst: GET_ELEMENT_PTR_INST
+			get_parameters: LIST [VALUE]
 		do
 			create ctx.default_create
 			create module.make ("test.o", ctx)
@@ -55,9 +62,34 @@ feature {NONE} -- Initialization
 			str.set_section ("__TEXT,__cstring,cstring_literals")
 			module.global_list_push_back (str)
 			create main.make_name (create {FUNCTION_TYPE}.make_without_parameters (create {INTEGER_TYPE}.make (ctx, 32)), linkage_types.external_linkage, create {TWINE}.make_string ("main"))
+			create {LINKED_LIST [TYPE_L]}puts_parameters.make
+			puts_parameters.extend (create {POINTER_TYPE}.make (create {INTEGER_TYPE}.make (ctx, 8)))
+			create puts.make_name (create {FUNCTION_TYPE}.make_with_parameters (create {INTEGER_TYPE}.make (ctx, 32), puts_parameters), linkage_types.external_linkage, create {TWINE}.make_string ("puts"))
+			main.add_fn_attr (attributes.no_unwind)
+			main.add_fn_attr (attributes.stack_protect)
 			create entry.make_name (ctx, create {TWINE}.make_string ("entry"))
+			create return.make_name (ctx, create {TWINE}.make_string ("return"))
 			main.basic_block_list_push_back (entry)
+			module.function_list_push_back (main)
+			module.function_list_push_back (puts)
 			create retval.make_type_name (create {INTEGER_TYPE}.make (ctx, 32), create {TWINE}.make_string ("retval"))
+			create {LINKED_LIST [VALUE]}get_parameters.make
+			get_parameters.extend (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
+			get_parameters.extend (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
+			create get_inst.make_inbounds_index_list (str, get_parameters)
+			create call_arguments.make
+			call_arguments.push_back (get_inst)
+			create call.make_arguments (puts, call_arguments)
+			create load.make_name (retval, create {TWINE}.make_string ("retval1"))
+			create return_inst.make_value (ctx, load)
+			return.inst_list_push_back (load)
+			return.inst_list_push_back (return_inst)
+			create br.make (return)
+			main.basic_block_list_push_back (return)
+			entry.inst_list_push_back (retval)
+			entry.inst_list_push_back (get_inst)
+			entry.inst_list_push_back (call)
+			entry.inst_list_push_back (br)
 			create output.make_filename ("/Users/colinlemahieu/Desktop/Out.ll")
 			module.print (output)
 		end
@@ -170,7 +202,7 @@ feature {NONE} -- Initialization
 			output_file.close
 		end
 
-	fun: detachable FUNCTION
+	fun: detachable FUNCTION_L
 	int: detachable INTEGER_TYPE
 	a_inst: detachable ALLOCA_INST
 

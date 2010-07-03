@@ -78,11 +78,7 @@
 		<external_library location="/usr/local/lib/libLLVMXCoreAsmPrinter.a"/>
 		<external_library location="/usr/local/lib/libLLVMXCoreCodeGen.a"/>
 		<external_library location="/usr/local/lib/libLLVMXCoreInfo.a"/>
-		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf">
-			<renaming old_name="TYPE" new_name="TYPE_EIF"/>
-			<renaming old_name="FUNCTION" new_name="FUNCTION_EIF"/>
-		</library>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<cluster name="eiffel_llvm" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>

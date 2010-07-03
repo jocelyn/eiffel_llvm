@@ -17,8 +17,12 @@ create
 feature {NONE}
 
 	make (t: ARRAY_TYPE; v: SPECIAL [CONSTANT])
+		local
+			v_external: SPECIAL [POINTER]
 		do
-			item := make_external (t.item, v.base_address, v.count.to_natural_32)
+			create v_external.make_empty (v.count)
+			across v as v_item loop v_external.extend (v_item.item.item) end
+			item := make_external (t.item, v_external.base_address, v.count.to_natural_32)
 		end
 
 feature {NONE} -- Externals
@@ -28,7 +32,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Constants.h%""
 		alias
 			"[
-				return llvm::ConstantArray::get ((const llvm::ArrayType *)$t, (llvm::Constant * const *)$v, $num_vals);		
+				return llvm::ConstantArray::get ((const llvm::ArrayType *)$t, (llvm::Constant * const *)$v, $num_vals);
 			]"
 		end
 end

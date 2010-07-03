@@ -20,22 +20,22 @@ create
 
 feature {NONE}
 
-	make (ty: TYPE; is_constant: BOOLEAN; linkage: INTEGER_32)
+	make (ty: TYPE_L; is_constant: BOOLEAN; linkage: INTEGER_32)
 		do
 			item := make_external (ty.item, is_constant, linkage)
 		end
 
-	make_initializer (ty: TYPE; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT)
+	make_initializer (ty: TYPE_L; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT)
 		do
 			item := make_initializer_external (ty.item, is_constant, linkage, initializer.item)
 		end
 
-	make_initializer_name (ty: TYPE; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT; name: TWINE)
+	make_initializer_name (ty: TYPE_L; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT; name: TWINE)
 		do
 			item := make_initializer_name_external (ty.item, is_constant, linkage, initializer.item, name.item)
 		end
 
-	make_initializer_name_thread_local (ty: TYPE; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT; name: TWINE; thread_local: BOOLEAN)
+	make_initializer_name_thread_local (ty: TYPE_L; is_constant: BOOLEAN; linkage: INTEGER_32; initializer: CONSTANT; name: TWINE; thread_local: BOOLEAN)
 		do
 			item := make_initializer_name_thread_local_external (ty.item, is_constant, linkage, initializer.item, name.item, thread_local)
 		end

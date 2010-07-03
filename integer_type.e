@@ -8,7 +8,7 @@ class
 	INTEGER_TYPE
 
 inherit
-	TYPE
+	TYPE_L
 
 create
 	make,

@@ -23,10 +23,10 @@ feature {NONE}
 		do
 			item := ctor_external
 		end
-		
+
 feature
 
-	push_back (x: TYPE)
+	push_back (x: TYPE_L)
 		do
 			push_back_external (item, x.item)
 		end

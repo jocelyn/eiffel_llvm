@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 class
-	TYPE
+	TYPE_L
 
 create
 
