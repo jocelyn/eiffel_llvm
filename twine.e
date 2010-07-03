@@ -10,7 +10,8 @@ class
 create
 
 	make_from_pointer,
-	make
+	make,
+	make_string
 
 feature {NONE}
 
@@ -23,7 +24,7 @@ feature {NONE}
 		do
 			item := make_external
 		end
-		
+
 	make_string (str: STRING)
 		local
 			str_c_string: C_STRING
@@ -52,7 +53,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/ADT/Twine.h%""
 		alias
 			"[
-				return new llvm::Twine;		
+				return new llvm::Twine;
 			]"
 		end
 end

@@ -13,7 +13,21 @@ inherit
 
 create
 
-	make_from_pointer
+	make_from_pointer,
+	make,
+	make_name
+
+feature {NONE}
+
+	make (context: LLVM_CONTEXT)
+		do
+			item := make_external (context.item)
+		end
+
+	make_name (context: LLVM_CONTEXT; name: TWINE)
+		do
+			item := make_name_external (context.item, name.item)
+		end
 
 feature
 
@@ -24,12 +38,30 @@ feature
 
 feature {NONE} -- Externals
 
+	make_external (context: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/BasicBlock.h%""
+		alias
+			"[
+				return llvm::BasicBlock::Create (*((llvm::LLVMContext *)$context));
+			]"
+		end
+		
+	make_name_external (context: POINTER; name: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/BasicBlock.h%""
+		alias
+			"[
+				return llvm::BasicBlock::Create (*((llvm::LLVMContext *)$context), *((llvm::Twine *)$name));
+			]"
+		end
+
 	inst_list_push_back_external (item_a: POINTER; v: POINTER)
 		external
 			"C++ inline use %"llvm/BasicBlock.h%""
 		alias
 			"[
-				((llvm::BasicBlock *)$item_a)->getInstList ().push_back ((llvm::Instruction *)$v);		
+				((llvm::BasicBlock *)$item_a)->getInstList ().push_back ((llvm::Instruction *)$v);
 			]"
 		end
 end

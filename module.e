@@ -7,6 +7,13 @@ note
 class
 	MODULE
 
+inherit
+
+	ANY
+		rename
+			print as print_eif
+		end
+
 create
 
 	make,
@@ -55,6 +62,11 @@ feature
 			function_list_push_back_external (item, v.item)
 		end
 
+	global_list_push_back (v: GLOBAL_VARIABLE)
+		do
+			global_list_push_back_external (item, v.item)
+		end
+
 --	get_function_list: FUNCTION_LIST_TYPE
 --		do
 --			create Result.make
@@ -92,7 +104,68 @@ feature
 			module_identifier_external (item, external_string.item)
 		end
 
+	set_data_layout (dl: STRING)
+		local
+			dl_c_string: C_STRING
+			dl_ref: STRING_REF
+		do
+			create dl_c_string.make (dl)
+			create dl_ref.make (dl_c_string.item)
+			set_data_layout_external (item, dl_ref.item)
+		end
+
+	set_target_triple (t: STRING)
+		local
+			t_c_string: C_STRING
+			t_ref: STRING_REF
+		do
+			create t_c_string.make (t)
+			create t_ref.make (t_c_string.item)
+			set_target_triple_external (item, t_ref.item)
+		end
+
+	print (os: RAW_OSTREAM)
+		do
+			print_external (item, os.item)
+		end
+
 feature {NONE} -- Externals
+
+	print_external (item_a: POINTER; os: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				((llvm::Module *)$item_a)->print (*((llvm::raw_ostream *)$os), NULL);
+			]"
+		end
+
+	set_target_triple_external (item_a: POINTER; t: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				((llvm::Module *)$item_a)->setTargetTriple (*((llvm::StringRef *)$t));
+			]"
+		end
+
+	set_data_layout_external (item_a: POINTER; dl: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				((llvm::Module *)$item_a)->setDataLayout (*((llvm::StringRef *)$dl));
+			]"
+		end
+
+	global_list_push_back_external (item_a: POINTER; v: POINTER)
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				((llvm::Module *)$item_a)->getGlobalList ().push_back ((llvm::GlobalVariable *)$v);
+			]"
+		end
 
 	function_list_push_back_external (item_a: POINTER; v: POINTER)
 		external

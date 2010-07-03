@@ -12,10 +12,16 @@ inherit
 
 create
 
+	make_name,
 	make_from_pointer,
 	cast_from
 
 feature {NONE}
+
+	make_name (ty: FUNCTION_TYPE; linkage: INTEGER_32; n: TWINE)
+		do
+			item := make_name_external (ty.item, linkage, n.item)
+		end
 
 	cast_from (v: VALUE)
 		require
@@ -43,12 +49,21 @@ feature
 
 feature {NONE} -- Externals
 
+	make_name_external (ty: POINTER; linkage: INTEGER_32; n: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Function.h%""
+		alias
+			"[
+				return llvm::Function::Create ((const llvm::FunctionType *)$ty, (llvm::GlobalValue::LinkageTypes)$linkage, *((llvm::Twine *)$n));
+			]"
+		end
+
 	basic_block_list_push_back_external (item_a: POINTER; v: POINTER)
 		external
 			"C++ inline use %"llvm/Function.h%""
 		alias
 			"[
-				((llvm::Function *)$item_a)->getBasicBlockList ().push_back ((llvm::BasicBlock *)$v);		
+				((llvm::Function *)$item_a)->getBasicBlockList ().push_back ((llvm::BasicBlock *)$v);
 			]"
 		end
 

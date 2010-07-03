@@ -14,6 +14,54 @@ create
 
 feature {NONE} -- Initialization
 
+	make
+		local
+			ctx: LLVM_CONTEXT
+			module: MODULE
+			str: GLOBAL_VARIABLE
+			linkage_types: LINKAGE_TYPES
+			int_t: INTEGER_TYPE
+			str_t: ARRAY_TYPE
+			str_values: SPECIAL [CONSTANT]
+			main: FUNCTION
+			puts: FUNCTION
+			entry: BASIC_BLOCK
+			return: BASIC_BLOCK
+			retval: ALLOCA_INST
+			call: CALL_INST
+			br: BRANCH_INST
+			output: RAW_FD_OSTREAM
+		do
+			create ctx.default_create
+			create module.make ("test.o", ctx)
+			module.set_data_layout ("e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128")
+			module.set_target_triple ("x86_64-apple-darwin10.3")
+			create int_t.make (ctx, 8)
+			create str_t.make (int_t, 12)
+			create str_values.make_empty (12)
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('H').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('e').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, (' ').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('W').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('r').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('d').code.to_natural_64))
+			str_values.extend (create {CONSTANT_INT}.make (int_t, ('%U').code.to_natural_64))
+			create str.make_initializer (str_t, True, linkage_types.internal_linkage, create {CONSTANT_ARRAY}.make (str_t, str_values))
+			str.set_section ("__TEXT,__cstring,cstring_literals")
+			module.global_list_push_back (str)
+			create main.make_name (create {FUNCTION_TYPE}.make_without_parameters (create {INTEGER_TYPE}.make (ctx, 32)), linkage_types.external_linkage, create {TWINE}.make_string ("main"))
+			create entry.make_name (ctx, create {TWINE}.make_string ("entry"))
+			main.basic_block_list_push_back (entry)
+			create retval.make_type_name (create {INTEGER_TYPE}.make (ctx, 32), create {TWINE}.make_string ("retval"))
+			create output.make_filename ("/Users/colinlemahieu/Desktop/Out.ll")
+			module.print (output)
+		end
+
 	make2
 		local
 			tr: TARGET_REGISTRY_CLASS
@@ -30,7 +78,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make
+	make3
 			-- Run application.
 		local
 			tr: TARGET_REGISTRY_CLASS
