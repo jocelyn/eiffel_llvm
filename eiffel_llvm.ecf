@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-6-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-6-0 http://www.eiffel.com/developers/xml/configuration-1-6-0.xsd" name="eiffel_llvm" uuid="2EEC0A09-FC0F-493E-B2F9-78DAC4DF495C" library_target="eiffel_llvm">
 	<target name="eiffel_llvm">
-		<root class="APPLICATION" feature="make"/>
+		<root all_classes="true"/>
 		<option warning="true" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
@@ -83,9 +83,9 @@
 		<cluster name="eiffel_llvm" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
-				<exclude>/testing</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
+				<exclude>/testing</exclude>
 				<exclude>/.git$</exclude>
 			</file_rule>
 		</cluster>
