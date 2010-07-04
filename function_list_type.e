@@ -26,7 +26,7 @@ feature {NONE}
 
 feature
 
-	push_back (val: FUNCTION)
+	push_back (val: FUNCTION_L)
 		do
 			push_back_external (item, val.item)
 		end
@@ -42,7 +42,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Module.h%""
 		alias
 			"[
-				return new llvm::Module::FunctionListType;	
+				return new llvm::Module::FunctionListType;
 			]"
 		end
 
@@ -51,7 +51,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Module.h%", %"llvm/Function.h%""
 		alias
 			"[
-				((llvm::Module::FunctionListType *)$item_a)->push_back ((llvm::Function *)$val);		
+				((llvm::Module::FunctionListType *)$item_a)->push_back ((llvm::Function *)$val);
 			]"
 		end
 end

@@ -11,7 +11,12 @@ create
 
 	make_from_pointer,
 	make,
-	make_string
+	make_string,
+	make_readable_string_general
+
+convert
+	make_readable_string_general ({READABLE_STRING_GENERAL}),
+	make_string ({STRING})
 
 feature {NONE}
 
@@ -26,6 +31,11 @@ feature {NONE}
 		end
 
 	make_string (str: STRING)
+		do
+			make_readable_string_general (str)
+		end
+
+	make_readable_string_general (str: READABLE_STRING_GENERAL)
 		local
 			str_c_string: C_STRING
 		do
