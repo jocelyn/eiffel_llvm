@@ -9,11 +9,33 @@ class
 
 inherit
 	BINARY_OPERATOR
+		rename
+			make as make_binary,
+			make_name as make_name_binary
+		end
 
 create
 
 	make,
 	make_name
+
+feature {NONE}
+
+	make (v1: VALUE; v2: VALUE)
+		require
+			v1.get_raw_type.classof_integer_type or v1.get_raw_type.classof_vector_type
+			v2.get_raw_type.classof_integer_type or v2.get_raw_type.classof_vector_type
+		do
+			make_binary (v1, v2)
+		end
+
+	make_name (v1: VALUE; v2: VALUE; name: TWINE)
+		require
+			v1.get_raw_type.classof_integer_type or v1.get_raw_type.classof_vector_type
+			v2.get_raw_type.classof_integer_type or v2.get_raw_type.classof_vector_type
+		do
+			make_name_binary (v1, v2, name)
+		end
 
 feature {NONE} -- Externals
 
@@ -31,7 +53,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/InstrTypes.h%""
 		alias
 			"[
-				return llvm::BinaryOperator::CreateAdd ((llvm::Value *)$v1, (llvm::Value *)$v2, *((llvm::Twine *)$name));		
+				return llvm::BinaryOperator::CreateAdd ((llvm::Value *)$v1, (llvm::Value *)$v2, *((llvm::Twine *)$name));
 			]"
 		end
 end

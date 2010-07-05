@@ -20,6 +20,13 @@ feature {NONE}
 
 feature
 
+	get_raw_type: TYPE_L
+		do
+			create Result.make_from_pointer (get_raw_type_external (item))
+		end
+
+feature
+
 	item: POINTER
 
 feature -- Casting queries
@@ -30,6 +37,15 @@ feature -- Casting queries
 		end
 
 feature {NONE} -- Externals
+
+	get_raw_type_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Value.h%""
+		alias
+			"[
+				return (EIF_POINTER)((llvm::Value *)$item_a)->getRawType ();
+			]"
+		end
 
 	class_of_function_external (item_a: POINTER): BOOLEAN
 		external

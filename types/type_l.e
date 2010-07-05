@@ -26,16 +26,62 @@ feature {NONE}
 
 feature
 
-		item: POINTER
+	get_type_id: INTEGER_32
+		do
+			Result := get_type_id_external (item)
+		end
+
+feature
+
+	item: POINTER
+
+feature -- Casting queries
+
+	classof_integer_type: BOOLEAN
+		do
+			Result := classof_integer_type_external (item)
+		end
+
+	classof_vector_type: BOOLEAN
+		do
+			Result := classof_vector_type_external (item)
+		end
 
 feature {NONE} -- Externals
+
+	classof_vector_type_external (item_a: POINTER): BOOLEAN
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return llvm::VectorType::classof ((llvm::Type *)$item_a);		
+			]"
+		end
+
+	get_type_id_external (item_a: POINTER): INTEGER_32
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return ((llvm::Type *)$item_a)->getTypeID ();
+			]"
+		end
+
+	classof_integer_type_external (item_a: POINTER): BOOLEAN
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return llvm::IntegerType::classof ((llvm::Type *)$item_a);
+			]"
+		end
 
 	make_void_external (ctx: POINTER): POINTER
 		external
 			"C++ inline use %"llvm/Type.h%""
 		alias
 			"[
-				return (EIF_POINTER)llvm::Type::getVoidTy (*((llvm::LLVMContext *)$ctx));	
+				return (EIF_POINTER)llvm::Type::getVoidTy (*((llvm::LLVMContext *)$ctx));
 			]"
 		end
 end
