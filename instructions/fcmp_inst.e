@@ -43,7 +43,7 @@ feature {NONE} -- External
 			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
-				return new llvm::FCmpInst ((llvm::CmpInst::Predicate)$pred, (llvm::Value *)$lhs, (llvm::Value *)$rhs, *((llvm:Twine *)$name));
+				return new llvm::FCmpInst ((llvm::CmpInst::Predicate)$pred, (llvm::Value *)$lhs, (llvm::Value *)$rhs, *((llvm::Twine *)$name));
 			]"
 		end
 

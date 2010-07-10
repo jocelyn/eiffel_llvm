@@ -17,12 +17,12 @@ create
 
 feature {NONE}
 
-	make (s: VALUE; ty: VALUE)
+	make (s: VALUE; ty: TYPE_L)
 		do
 			item := make_external (s.item, ty.item)
 		end
 
-	make_name (s: VALUE; ty: VALUE; name: TWINE)
+	make_name (s: VALUE; ty: TYPE_L; name: TWINE)
 		do
 			item := make_name_external (s.item, ty.item, name.item)
 		end
@@ -34,7 +34,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
-				return new llvm::TruncInst ((llvm::Value *)$s, (llvm::Value *)$ty);
+				return new llvm::TruncInst ((llvm::Value *)$s, (llvm::Type *)$ty);
 			]"
 		end
 
@@ -43,7 +43,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
-				return new llvm::TruncInst ((llvm::Value *)$s, (llvm::Value *)$ty, *((llvm::Twine *)$name));
+				return new llvm::TruncInst ((llvm::Value *)$s, (llvm::Type *)$ty, *((llvm::Twine *)$name));
 			]"
 		end
 end

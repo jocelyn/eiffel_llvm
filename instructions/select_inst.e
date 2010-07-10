@@ -34,7 +34,7 @@ feature {NONE} -- External
 			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
-				return new llvm::SelectInst ((llvm::Value *)$c, (llvm::Value *)$s1, (llvm::Value *)$s2);
+				return llvm::SelectInst::Create ((llvm::Value *)$c, (llvm::Value *)$s1, (llvm::Value *)$s2);
 			]"
 		end
 
@@ -43,7 +43,7 @@ feature {NONE} -- External
 			"C++ inline use %"llvm/Instructions.h%""
 		alias
 			"[
-				return new llvm::SelectInst ((llvm::Value *)$c, (llvm::Value *)$s1, (llvm::Value *)$s2, *((llvm:Twine *)$name));
+				return llvm::SelectInst::Create ((llvm::Value *)$c, (llvm::Value *)$s1, (llvm::Value *)$s2, *((llvm::Twine *)$name));
 			]"
 		end
 

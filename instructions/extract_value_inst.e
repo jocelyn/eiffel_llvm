@@ -29,22 +29,14 @@ feature {NONE}
 			item := make_name_external (agg.item, idx, name.item)
 		end
 
-	make_list (agg: VALUE; idx: LIST [NATURAL_32])
-		local
-			idx_vector: UNSIGNED_VECTOR
+	make_list (agg: VALUE; idx: UNSIGNED_VECTOR)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_list_external (agg.item, idx_vector.item)
+			item := make_list_external (agg.item, idx.item)
 		end
 
-	make_list_name (agg: VALUE; idx: LIST [NATURAL_32]; name: TWINE)
-		local
-			idx_vector: UNSIGNED_VECTOR
+	make_list_name (agg: VALUE; idx: UNSIGNED_VECTOR; name: TWINE)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_list_name_external (agg.item, idx_vector.item, name.item)
+			item := make_list_name_external (agg.item, idx.item, name.item)
 		end
 
 feature {NONE} -- Externals
