@@ -16,13 +16,17 @@ create
 
 feature {NONE}
 
-	make (func: VALUE; if_normal: BASIC_BLOCK; if_exception: BASIC_BLOCK; arguments: LIST [VALUE])
+	make (func: VALUE; if_normal: BASIC_BLOCK; if_exception: BASIC_BLOCK)
 		local
-			arguments_vector: VALUE_VECTOR
+			arguments: VALUE_VECTOR
 		do
-			create arguments_vector.make
-			across arguments as argument_item loop arguments_vector.push_back (argument_item.item) end
-			item := make_external (func.item, if_normal.item, if_exception.item, arguments_vector.item)
+			create arguments.make
+			item := make_external (func.item, if_normal.item, if_exception.item, arguments.item)
+		end
+
+	make_arguments (func: VALUE; if_normal: BASIC_BLOCK; if_exception: BASIC_BLOCK; arguments: VALUE_VECTOR)
+		do
+			item := make_external (func.item, if_normal.item, if_exception.item, arguments.item)
 		end
 
 feature {NONE}

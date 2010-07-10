@@ -10,7 +10,9 @@ class
 create
 
 	make_from_pointer,
-	make_void
+	make_void,
+	make_double,
+	make_float
 
 feature {NONE}
 
@@ -22,6 +24,16 @@ feature {NONE}
 	make_void (ctx: LLVM_CONTEXT)
 		do
 			item := make_void_external (ctx.item)
+		end
+
+	make_double (ctx: LLVM_CONTEXT)
+		do
+			item := make_double_external (ctx.item)
+		end
+		
+	make_float (ctx: LLVM_CONTEXT)
+		do
+			item := make_float_external (ctx.item)
 		end
 
 feature
@@ -36,6 +48,24 @@ feature
 	item: POINTER
 
 feature -- Casting queries
+
+	make_float_external (ctx: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return (EIF_POINTER)llvm::Type::getFloatTy (*((llvm::LLVMContext *)$ctx));
+			]"
+		end
+
+	make_double_external (ctx: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return (EIF_POINTER)llvm::Type::getDoubleTy (*((llvm::LLVMContext *)$ctx));
+			]"
+		end
 
 	classof_integer_type: BOOLEAN
 		do
@@ -54,7 +84,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/Type.h%""
 		alias
 			"[
-				return llvm::VectorType::classof ((llvm::Type *)$item_a);		
+				return llvm::VectorType::classof ((llvm::Type *)$item_a);
 			]"
 		end
 

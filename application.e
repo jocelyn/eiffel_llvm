@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			linkage_types: LINKAGE_TYPES
 			int_t: INTEGER_TYPE
 			str_t: ARRAY_TYPE
-			str_values: SPECIAL [CONSTANT]
+			str_values: CONSTANT_STLVECTOR
 			main: FUNCTION_L
 			puts: FUNCTION_L
 			entry: BASIC_BLOCK
@@ -45,19 +45,19 @@ feature {NONE} -- Initialization
 			module.set_target_triple ("x86_64-apple-darwin10.3")
 			create int_t.make (ctx, 8)
 			create str_t.make (int_t, 12)
-			create str_values.make_empty (12)
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('H').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('e').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, (' ').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('W').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('r').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('d').code.to_natural_64))
-			str_values.extend (create {CONSTANT_INT}.make (int_t, ('%U').code.to_natural_64))
+			create str_values.make
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('H').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('e').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, (' ').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('W').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('o').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('r').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('l').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('d').code.to_natural_64))
+			str_values.push_back (create {CONSTANT_INT}.make (int_t, ('%U').code.to_natural_64))
 			create str.make_initializer (str_t, True, linkage_types.internal_linkage, create {CONSTANT_ARRAY}.make (str_t, str_values))
 			str.set_section ("__TEXT,__cstring,cstring_literals")
 			module.global_list_push_back (str)

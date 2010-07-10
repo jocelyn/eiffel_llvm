@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {CONSTANT_ARRAY}."
+	description: "Summary description for {CONSTANT_VECTOR}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	CONSTANT_ARRAY
+	CONSTANT_VECTOR
 
 inherit
 	CONSTANT
@@ -16,19 +16,20 @@ create
 
 feature {NONE}
 
-	make (t: ARRAY_TYPE; v: CONSTANT_STLVECTOR)
+	make (t: VECTOR_TYPE; v: CONSTANT_STLVECTOR)
 		do
 			item := make_external (t.item, v.item)
 		end
 
-feature {NONE} -- Externals
+feature {NONE}
 
 	make_external (t: POINTER; v: POINTER): POINTER
 		external
 			"C++ inline use %"llvm/Constants.h%""
 		alias
 			"[
-				return llvm::ConstantArray::get ((const llvm::ArrayType *)$t, *((std::vector <llvm::Constant *> *)$v));
+				return llvm::ConstantVector::get ((llvm::VectorType *)$t, *((std::vector <llvm::Constant *> *)$v));
 			]"
 		end
+
 end
