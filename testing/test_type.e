@@ -26,6 +26,18 @@ feature -- Test routines
 			assert ("get_type_id", t.get_type_id = type_id.integer_ty_id)
 		end
 
+	test_print
+		local
+			ctx: LLVM_CONTEXT
+			t: TYPE_L
+			s: RAW_STRING_OSTREAM
+		do
+			create ctx
+--			create {STRUCT_TYPE}t.make (ctx, 32)
+			create s.make
+
+		end
+
 end
 
 
