@@ -8,24 +8,23 @@ note
 	testing: "type/manual"
 
 class
-	TEST_PTR_TO_INT_INST_OPERATOR
+	TEST_UREM_OPERATOR
 
 inherit
 	EQA_TEST_SET
 
 feature -- Test routines
 
-	test_ptr_to_int_inst_1
+	test_urem_operator_1
 		local
 			ctx: LLVM_CONTEXT
 			m: MODULE
 			f: FUNCTION_L
 			b: BASIC_BLOCK
 			linkage_types: LINKAGE_TYPES
-			i: PTR_TO_INT_INST
+			i: UREM_OPERATOR
 			s: RAW_STRING_OSTREAM
 			s_result: STRING
-			g: GLOBAL_VARIABLE
 		do
 			create ctx
 			create m.make ("test", ctx)
@@ -33,24 +32,20 @@ feature -- Test routines
 			create b.make (ctx)
 			f.basic_block_list_push_back (b)
 			m.function_list_push_back (f)
-			create g.make_initializer (create {INTEGER_TYPE}.make (ctx, 32), True, linkage_types.external_linkage, create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 8))
-			m.global_list_push_back (g)
-			create i.make (g, create {INTEGER_TYPE}.make (ctx, 32))
+			create i.make (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 8), create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 9))
 			b.inst_list_push_back (i)
 			create s.make
 			m.print (s)
 			s_result := s.string
-			assert ("test_ptr_to_int_inst_1", s_result ~ test_ptr_to_int_inst_1_expected)
+			assert ("test_urem_operator_1", s_result ~ test_urem_operator_1_expected)
 		end
 
-	test_ptr_to_int_inst_1_expected: STRING_8 =
+	test_urem_operator_1_expected: STRING_8 =
 "[
 ; ModuleID = 'test'
 
-@0 = constant i32 8                               ; <i32*> [#uses=1]
-
 define i32 @main() {
-  %1 = ptrtoint i32* @0 to i32                    ; <i32> [#uses=0]
+  %1 = urem i32 8, 9                              ; <i32> [#uses=0]
 }
 
 ]"

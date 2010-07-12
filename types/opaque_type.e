@@ -1,25 +1,24 @@
 note
-	description: "Summary description for {POINTER_TYPE}."
+	description: "Summary description for {OPAQUE_TYPE}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	POINTER_TYPE
+	OPAQUE_TYPE
 
 inherit
-	SEQUENTIAL_TYPE
+	DERIVED_TYPE
 
 create
 
-	make_from_pointer,
 	make
 
 feature {NONE}
 
-	make (element_type: TYPE_L)
+	make (ctx: LLVM_CONTEXT)
 		do
-			item := make_external (element_type.item)
+			item := make_external (ctx.item)
 		end
 
 feature
@@ -40,12 +39,12 @@ feature {NONE} -- Externals
 			]"
 		end
 
-	make_external (element_type: POINTER): POINTER
+	make_external (ctx: POINTER): POINTER
 		external
 			"C++ inline use %"llvm/DerivedTypes.h%""
 		alias
 			"[
-				return llvm::PointerType::getUnqual ((const llvm::Type *)$element_type);
+				return llvm::OpaqueType::get (*((llvm::LLVMContext *)$ctx));
 			]"
 		end
 end
