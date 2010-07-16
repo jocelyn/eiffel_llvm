@@ -355,6 +355,7 @@ feature -- Test routines
 			v1: CONSTANT_STLVECTOR
 			c1: CONSTANT_STRUCT
 			st1: STRUCT_TYPE
+			sh1: PA_TYPE_HOLDER
 			o1: OPAQUE_TYPE
 			o2: OPAQUE_TYPE
 			p1: POINTER_TYPE
@@ -365,6 +366,7 @@ feature -- Test routines
 			v2: CONSTANT_STLVECTOR
 			c2: CONSTANT_STRUCT
 			st2: STRUCT_TYPE
+			sh2: PA_TYPE_HOLDER
 			o3: OPAQUE_TYPE
 			o4: OPAQUE_TYPE
 			p3: POINTER_TYPE
@@ -383,21 +385,22 @@ feature -- Test routines
 			t1.push_back (create {INTEGER_TYPE}.make (ctx, 32))
 			v1.push_back (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 14))
 			t1.push_back (p1)
-			v1.push_back (create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (o1)))
+			v1.push_back (create {CONSTANT_POINTER_NULL}.make (p1))
 			create o2.make (ctx)
 			create p2.make (o2)
 			t1.push_back (p2)
-			v1.push_back (create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (o2)))
+			v1.push_back (create {CONSTANT_POINTER_NULL}.make (p2))
 			create c1.make (ctx, v1)
 			create st1.make (ctx, t1)
+			create sh1.make (st1)
 			create g1.make_initializer (create {POINTER_TYPE}.make (st1), True, linkage_types.external_linkage, create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (st1)))
 			m.global_list_push_back (g1)
 			create s.make
 			m.print (s)
 			s_result := s.string
 			assert ("test_opaque_type_7_1", s_result ~ test_opaque_type_7_1_expected)
-			o1.refine_abstract_type_to (st1)
-			o2.refine_abstract_type_to (st1)
+			o1.refine_abstract_type_to (sh1.get)
+			o2.refine_abstract_type_to (sh1.get)
 			create s.make
 			m.print (s)
 			s_result := s.string
@@ -410,21 +413,22 @@ feature -- Test routines
 			t2.push_back (create {INTEGER_TYPE}.make (ctx, 32))
 			v2.push_back (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 14))
 			t2.push_back (p3)
-			v2.push_back (create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (o3)))
+			v2.push_back (create {CONSTANT_POINTER_NULL}.make (p3))
 			create o4.make (ctx)
 			create p4.make (o4)
 			t2.push_back (p4)
-			v2.push_back (create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (o4)))
+			v2.push_back (create {CONSTANT_POINTER_NULL}.make (p4))
 			create c2.make (ctx, v2)
 			create st2.make (ctx, t2)
+			create sh2.make (st2)
 			create g2.make_initializer (create {POINTER_TYPE}.make (st2), True, linkage_types.external_linkage, create {CONSTANT_POINTER_NULL}.make (create {POINTER_TYPE}.make (st2)))
 			m.global_list_push_back (g2)
 			create s.make
 			m.print (s)
 			s_result := s.string
 			assert ("test_opaque_type_7_3", s_result ~ test_opaque_type_7_3_expected)
-			o3.refine_abstract_type_to (st2)
-			o4.refine_abstract_type_to (st2)
+			o3.refine_abstract_type_to (sh2.get)
+			o4.refine_abstract_type_to (sh2.get)
 			create s.make
 			m.print (s)
 			s_result := s.string
