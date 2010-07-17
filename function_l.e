@@ -42,12 +42,26 @@ feature
 			add_attribute_external (item, i, n)
 		end
 
+	argument_list_push_back (v: ARGUMENT)
+		do
+			argument_list_push_back_external (item, v.item)
+		end
+
 	basic_block_list_push_back (v: BASIC_BLOCK)
 		do
 			basic_block_list_push_back_external (item, v.item)
 		end
 
 feature {NONE} -- Externals
+
+	argument_list_push_back_external (item_a: POINTER; v: POINTER)
+		external
+			"C++ inline use %"llvm/Function.h%""
+		alias
+			"[
+				((llvm::Function *)$item_a)->getArgumentList ().push_back ((llvm::Argument *)$v);		
+			]"
+		end
 
 	make_name_external (ty: POINTER; linkage: INTEGER_32; n: POINTER): POINTER
 		external

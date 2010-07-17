@@ -12,7 +12,8 @@ inherit
 
 create
 
-	make
+	make,
+	make_from_pointer
 
 feature {NONE}
 

@@ -29,6 +29,16 @@ feature -- Test routines
 			assert ("test_isa_2", not t2.classof_integer_type)
 		end
 
+	test_get_bit_width
+		local
+			ctx: LLVM_CONTEXT
+			t: INTEGER_TYPE
+		do
+			create ctx
+			create t.make (ctx, 32)
+			assert ("test_get_bit_width_1", t.get_bit_width = 32)
+		end
+
 end
 
 

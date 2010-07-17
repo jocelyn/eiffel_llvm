@@ -12,6 +12,7 @@ inherit
 
 create
 	make,
+	make_from_pointer,
 	get_int32_type
 
 feature {NONE}
@@ -26,7 +27,23 @@ feature {NONE}
 			item := get_int32_type_external (c.item)
 		end
 
+feature
+
+	get_bit_width: NATURAL_32
+		do
+			Result := get_bit_width_external (item)
+		end
+
 feature {NONE} -- Externals
+
+	get_bit_width_external (item_a: POINTER): NATURAL_32
+		external
+			"C++ inline use %"llvm/DerivedTypes.h%""
+		alias
+			"[
+				return ((llvm::IntegerType *)$item_a)->getBitWidth ();		
+			]"
+		end
 
 	make_external (c: POINTER; num_bits: NATURAL_32): POINTER
 		external
