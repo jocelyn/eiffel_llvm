@@ -482,6 +482,18 @@ feature -- Test routines
 
 ]"
 
+	test_opaque_type_8
+		local
+			ctx: LLVM_CONTEXT
+			h: PA_TYPE_HOLDER
+			o: OPAQUE_TYPE
+		do
+			create ctx
+			create h.make (create {OPAQUE_TYPE}.make (ctx))
+			o := h.get.cast_to_opaque
+			o.refine_abstract_type_to (create {INTEGER_TYPE}.make (ctx, 32))
+		end
+
 end
 
 

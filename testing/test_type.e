@@ -38,6 +38,18 @@ feature -- Test routines
 
 		end
 
+	test_type_1
+		local
+			ctx: LLVM_CONTEXT
+			t: PA_TYPE_HOLDER
+		do
+			create ctx
+			create t.make (create {OPAQUE_TYPE}.make (ctx))
+			assert ("test_type_1_1", t.get.is_abstract)
+			t.get.cast_to_opaque.refine_abstract_type_to (create {INTEGER_TYPE}.make (ctx, 32))
+			assert ("test_type_1_2", not t.get.is_abstract)
+		end
+
 end
 
 

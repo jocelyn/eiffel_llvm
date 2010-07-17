@@ -30,7 +30,7 @@ feature {NONE}
 		do
 			item := make_double_external (ctx.item)
 		end
-		
+
 	make_float (ctx: LLVM_CONTEXT)
 		do
 			item := make_float_external (ctx.item)
@@ -38,9 +38,21 @@ feature {NONE}
 
 feature
 
+	is_abstract: BOOLEAN
+		do
+			Result := is_abstract_external (item)
+		end
+
 	get_type_id: INTEGER_32
 		do
 			Result := get_type_id_external (item)
+		end
+
+feature -- Casting
+
+	cast_to_opaque: OPAQUE_TYPE
+		do
+			create Result.make_from_pointer (cast_to_opaque_external (item))
 		end
 
 feature
@@ -48,6 +60,24 @@ feature
 	item: POINTER
 
 feature -- Casting queries
+
+	is_abstract_external (item_a: POINTER): BOOLEAN
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				return ((llvm::Type *)$item_a)->isAbstract ();
+			]"
+		end
+
+	cast_to_opaque_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/DerivedTypes.h%", %"llvm/Support/Casting.h%""
+		alias
+			"[
+				return llvm::cast <llvm::OpaqueType *> ((llvm::Type *)$item_a);
+			]"
+		end
 
 	make_float_external (ctx: POINTER): POINTER
 		external
