@@ -6,7 +6,7 @@ note
 
 class
 	TYPE_L
-	
+
 inherit
 
 	ANY
@@ -84,7 +84,7 @@ feature
 		do
 			Result := is_vector_ty_external (item)
 		end
-		
+
 	is_integer_ty: BOOLEAN
 		do
 			Result := is_integer_ty_external (item)
@@ -106,7 +106,7 @@ feature -- Casting
 		do
 			create Result.make_from_pointer (cast_to_opaque_type_external (item))
 		end
-		
+
 	cast_to_integer_type: INTEGER_TYPE
 		do
 			create Result.make_from_pointer (cast_to_integer_type_external (item))
@@ -215,7 +215,7 @@ feature -- Casting queries
 			"C++ inline use %"llvm/DerivedTypes.h%", %"llvm/Support/Casting.h%""
 		alias
 			"[
-				return llvm::cast <llvm::IntegerType *> ((llvm::Type *)$item_a);		
+				return llvm::cast <llvm::IntegerType *> ((llvm::Type *)$item_a);
 			]"
 		end
 
