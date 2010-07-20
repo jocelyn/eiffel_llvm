@@ -50,6 +50,17 @@ feature -- Test routines
 			assert ("test_type_1_2", not t.get.is_abstract)
 		end
 
+	test_type_2
+		local
+			ctx: LLVM_CONTEXT
+			t: TYPE_L
+		do
+			create ctx
+			create {POINTER_TYPE}t.make (create {INTEGER_TYPE}.make (ctx, 8))
+			assert ("test_type_2_1", t.is_pointer_ty)
+			assert ("test_type_2_2", t.get_type_id = {TYPE_ID}.pointer_ty_id)
+		end
+
 end
 
 
