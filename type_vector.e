@@ -31,11 +31,39 @@ feature
 			push_back_external (item, x.item)
 		end
 
+	count: NATURAL_32
+		do
+			Result := count_external (item)
+		end
+
+	at (index: NATURAL_32): TYPE_L
+		do
+			create Result.make_from_pointer (at_external (item, index))
+		end
+
 feature
 
 	item: POINTER
 
 feature {NONE} -- Externals
+
+	at_external (item_a: POINTER; index: NATURAL_32): POINTER
+		external
+			"C++ inline use <vector>, %"llvm/Type.h%""
+		alias
+			"[
+				return ((std::vector <llvm::Type *> *)$item_a)->at ($index);
+			]"
+		end
+
+	count_external (item_a: POINTER): NATURAL_32
+		external
+			"C++ inline use <vector>, %"llvm/Type.h%""
+		alias
+			"[
+				return ((std::vector <llvm::Type *>	*)$item_a)->size ();	
+			]"
+		end
 
 	ctor_external: POINTER
 		external

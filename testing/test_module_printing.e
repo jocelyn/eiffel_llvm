@@ -36,7 +36,7 @@ feature -- Test routines
 			attributes: ATTRIBUTES
 			return_inst: RETURN_INST
 			load: LOAD_INST
-			puts_parameters: LIST [TYPE_L]
+			puts_parameters: TYPE_VECTOR
 			get_inst: GET_ELEMENT_PTR_INST
 			get_parameters: LIST [VALUE]
 		do
@@ -63,8 +63,8 @@ feature -- Test routines
 			str.set_section ("__TEXT,__cstring,cstring_literals")
 			module.global_list_push_back (str)
 			create main.make_name (create {FUNCTION_TYPE}.make_without_parameters (create {INTEGER_TYPE}.make (ctx, 32)), linkage_types.external_linkage, "main")
-			create {LINKED_LIST [TYPE_L]}puts_parameters.make
-			puts_parameters.extend (create {POINTER_TYPE}.make (create {INTEGER_TYPE}.make (ctx, 8)))
+			create puts_parameters.make
+			puts_parameters.push_back (create {POINTER_TYPE}.make (create {INTEGER_TYPE}.make (ctx, 8)))
 			create puts.make_name (create {FUNCTION_TYPE}.make_with_parameters (create {INTEGER_TYPE}.make (ctx, 32), puts_parameters), linkage_types.external_linkage, "puts")
 			main.add_fn_attr (attributes.no_unwind)
 			main.add_fn_attr (attributes.stack_protect)

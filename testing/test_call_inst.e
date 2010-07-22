@@ -27,14 +27,14 @@ feature -- Test routines
 			i: CALL_INST
 			s: RAW_STRING_OSTREAM
 			s_result: STRING
-			parameters: LIST [TYPE_L]
+			parameters:TYPE_VECTOR
 			arguments: VALUE_VECTOR
 		do
 			create ctx
 			create m.make ("test", ctx)
 			create f1.make_name (create {FUNCTION_TYPE}.make_without_parameters (create {INTEGER_TYPE}.make (ctx, 32)), linkage_types.external_linkage, "main")
-			create {LINKED_LIST [TYPE_L]}parameters.make
-			parameters.extend (create {INTEGER_TYPE}.make (ctx, 32))
+			create parameters.make
+			parameters.push_back (create {INTEGER_TYPE}.make (ctx, 32))
 			create f2.make_name (create {FUNCTION_TYPE}.make_with_parameters (create {INTEGER_TYPE}.make (ctx, 32), parameters), linkage_types.external_linkage, "thing")
 			create b1.make (ctx)
 			create b2.make (ctx)

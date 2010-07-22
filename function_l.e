@@ -52,14 +52,28 @@ feature
 			basic_block_list_push_back_external (item, v.item)
 		end
 
+	get_function_type: FUNCTION_TYPE
+		do
+			create Result.make_from_pointer (get_function_type_external (item))
+		end
+
 feature {NONE} -- Externals
+
+	get_function_type_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/Function.h%""
+		alias
+			"[
+				return (EIF_POINTER)((llvm::Function *)$item_a)->getFunctionType ();
+			]"
+		end
 
 	argument_list_push_back_external (item_a: POINTER; v: POINTER)
 		external
 			"C++ inline use %"llvm/Function.h%""
 		alias
 			"[
-				((llvm::Function *)$item_a)->getArgumentList ().push_back ((llvm::Argument *)$v);		
+				((llvm::Function *)$item_a)->getArgumentList ().push_back ((llvm::Argument *)$v);
 			]"
 		end
 
