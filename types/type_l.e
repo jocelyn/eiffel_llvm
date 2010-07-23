@@ -50,6 +50,12 @@ feature {NONE}
 
 feature
 
+	get_description: CPP_STRING
+		do
+			create Result.make
+			get_description_external (item, Result.item)
+		end
+
 	print (o: RAW_OSTREAM)
 		do
 			print_external (item, o.item)
@@ -120,12 +126,8 @@ feature -- Casting
 feature
 
 	debug_output: STRING_8
-		local
-			str: RAW_STRING_OSTREAM
 		do
-			create str.make
-			print (str)
-			Result := str.string
+			Result := get_description.string
 		end
 
 feature
@@ -133,6 +135,15 @@ feature
 	item: POINTER
 
 feature -- Casting queries
+
+	get_description_external (item_a: POINTER; target: POINTER)
+		external
+			"C++ inline use %"llvm/Type.h%""
+		alias
+			"[
+				((std::string *)$target)->assign (((llvm::Type *)$item_a)->getDescription ());		
+			]"
+		end
 
 	print_external (item_a: POINTER; o: POINTER)
 		external

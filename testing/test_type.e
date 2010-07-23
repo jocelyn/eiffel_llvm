@@ -26,16 +26,18 @@ feature -- Test routines
 			assert ("get_type_id", t.get_type_id = type_id.integer_ty_id)
 		end
 
-	test_print
+	test_description_1
 		local
 			ctx: LLVM_CONTEXT
 			t: TYPE_L
-			s: RAW_STRING_OSTREAM
+			s: CPP_STRING
+			r: STRING_8
 		do
 			create ctx
---			create {STRUCT_TYPE}t.make (ctx, 32)
-			create s.make
-
+			create t.make_float (ctx)
+			s := t.get_description
+			r := s.string
+			assert ("test_description_1", r ~ "float")
 		end
 
 	test_type_1

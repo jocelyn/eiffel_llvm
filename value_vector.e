@@ -37,6 +37,8 @@ feature
 		end
 
 	at (index: NATURAL_32): VALUE
+		require
+			index_in_range: index < count
 		do
 			create Result.make_from_pointer (at_external (item, index))
 		end
@@ -52,7 +54,7 @@ feature {NONE} -- Externals
 			"C++ inline use <vector>, %"llvm/Value.h%""
 		alias
 			"[
-				return ((std::vector <llvm::Value *> *)$item_a)->at ($index);		
+				return (*((std::vector <llvm::Value *> *)$item_a)) [$index];
 			]"
 		end
 
@@ -61,7 +63,7 @@ feature {NONE} -- Externals
 			"C++ inline use <vector>, %"llvm/Value.h%""
 		alias
 			"[
-				return ((std::vector <llvm::Value *> *)$item_a)->size ();		
+				return ((std::vector <llvm::Value *> *)$item_a)->size ();
 			]"
 		end
 

@@ -10,6 +10,8 @@ class
 inherit
 	GLOBAL_VALUE
 
+	DEBUG_OUTPUT
+
 create
 
 	make_name,
@@ -55,6 +57,13 @@ feature
 	get_function_type: FUNCTION_TYPE
 		do
 			create Result.make_from_pointer (get_function_type_external (item))
+		end
+
+feature
+
+	debug_output: STRING_8
+		do
+			Result := get_function_type.get_description.string
 		end
 
 feature {NONE} -- Externals
