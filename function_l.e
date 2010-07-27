@@ -14,11 +14,17 @@ inherit
 
 create
 
+	make,
 	make_name,
 	make_from_pointer,
 	cast_from
 
 feature {NONE}
+
+	make (ty: FUNCTION_TYPE; linkage: INTEGER_32)
+		do
+			item := make_external (ty.item, linkage)
+		end
 
 	make_name (ty: FUNCTION_TYPE; linkage: INTEGER_32; n: TWINE)
 		do
@@ -83,6 +89,15 @@ feature {NONE} -- Externals
 		alias
 			"[
 				((llvm::Function *)$item_a)->getArgumentList ().push_back ((llvm::Argument *)$v);
+			]"
+		end
+
+	make_external (ty: POINTER; linkage: INTEGER_32): POINTER
+		external
+			"C++ inline use %"llvm/Function.h%""
+		alias
+			"[
+				return llvm::Function::Create ((const llvm::FunctionType *)$ty, (llvm::GlobalValue::LinkageTypes)$linkage);
 			]"
 		end
 
