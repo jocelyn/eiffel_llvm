@@ -27,7 +27,7 @@ feature -- Test routines
 			s_result: STRING
 			array: CONSTANT_ARRAY
 			values: CONSTANT_STLVECTOR
-			index: LIST [VALUE]
+			index: VALUE_VECTOR
 			global: GLOBAL_VARIABLE
 		do
 			create ctx
@@ -41,8 +41,8 @@ feature -- Test routines
 			create array.make (create {ARRAY_TYPE}.make (create {INTEGER_TYPE}.make (ctx, 32), 1), values)
 			create global.make_initializer (create {ARRAY_TYPE}.make (create {INTEGER_TYPE}.make (ctx, 32), 1), True, linkage_types.external_linkage, array)
 			m.global_list_push_back (global)
-			create {LINKED_LIST [VALUE]}index.make
-			index.extend (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 0))
+			create index.make
+			index.push_back (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 32), 0))
 			create i.make_index_list (global, index)
 			b.inst_list_push_back (i)
 			create s.make

@@ -34,22 +34,14 @@ feature {NONE}
 			item := make_index_name_external (ptr.item, idx.item, name.item)
 		end
 
-	make_index_list (ptr: VALUE; idx: LIST [VALUE])
-		local
-			idx_vector: VALUE_VECTOR
+	make_index_list (ptr: VALUE; idx: VALUE_VECTOR)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_index_list_external (ptr.item, idx_vector.item)
+			item := make_index_list_external (ptr.item, idx.item)
 		end
 
-	make_index_list_name (ptr: VALUE; idx: LIST [VALUE]; name: TWINE)
-		local
-			idx_vector: VALUE_VECTOR
+	make_index_list_name (ptr: VALUE; idx: VALUE_VECTOR; name: TWINE)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_index_list_name_external (ptr.item, idx_vector.item, name.item)
+			item := make_index_list_name_external (ptr.item, idx.item, name.item)
 		end
 
 	make_inbounds_index (ptr: VALUE; idx: VALUE)
@@ -62,22 +54,14 @@ feature {NONE}
 			item := make_inbounds_index_name_external (ptr.item, idx.item, name.item)
 		end
 
-	make_inbounds_index_list (ptr: VALUE; idx: LIST [VALUE])
-		local
-			idx_vector: VALUE_VECTOR
+	make_inbounds_index_list (ptr: VALUE; idx: VALUE_VECTOR)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_inbounds_index_list_external (ptr.item, idx_vector.item)
+			item := make_inbounds_index_list_external (ptr.item, idx.item)
 		end
 
-	make_inbounds_index_list_name (ptr: VALUE; idx: LIST [VALUE]; name: TWINE)
-		local
-			idx_vector: VALUE_VECTOR
+	make_inbounds_index_list_name (ptr: VALUE; idx: VALUE_VECTOR; name: TWINE)
 		do
-			create idx_vector.make
-			across idx as idx_item loop idx_vector.push_back (idx_item.item) end
-			item := make_inbounds_index_list_name_external (ptr.item, idx_vector.item, name.item)
+			item := make_inbounds_index_list_name_external (ptr.item, idx.item, name.item)
 		end
 
 feature {NONE} -- Externals

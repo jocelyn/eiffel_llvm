@@ -65,6 +65,11 @@ feature
 			create Result.make_from_pointer (get_function_type_external (item))
 		end
 
+	fill_with_arguments (target: ARGUMENT_VECTOR)
+		do
+			fill_with_arguments_external (item, target.item)
+		end
+
 feature
 
 	debug_output: STRING_8
@@ -73,6 +78,18 @@ feature
 		end
 
 feature {NONE} -- Externals
+
+	fill_with_arguments_external (item_a: POINTER; target: POINTER)
+		external
+			"C++ inline use <vector>, %"llvm/Function.h%""
+		alias
+			"[
+				for (llvm::Function::ArgumentListType::iterator i = ((llvm::Function *)$item_a)->getArgumentList ().begin (); i != ((llvm::Function *)$item_a)->getArgumentList ().end (); i++)
+				{
+					((std::vector <llvm::Argument *> *)$target)->push_back (&(*i));
+				}
+			]"
+		end
 
 	get_function_type_external (item_a: POINTER): POINTER
 		external

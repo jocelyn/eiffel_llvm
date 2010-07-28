@@ -38,7 +38,7 @@ feature -- Test routines
 			load: LOAD_INST
 			puts_parameters: TYPE_VECTOR
 			get_inst: GET_ELEMENT_PTR_INST
-			get_parameters: LIST [VALUE]
+			get_parameters: VALUE_VECTOR
 		do
 			create ctx.default_create
 			create module.make ("test.o", ctx)
@@ -74,9 +74,9 @@ feature -- Test routines
 			module.function_list_push_back (main)
 			module.function_list_push_back (puts)
 			create retval.make_type_name (create {INTEGER_TYPE}.make (ctx, 32), "retval")
-			create {LINKED_LIST [VALUE]}get_parameters.make
-			get_parameters.extend (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
-			get_parameters.extend (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
+			create get_parameters.make
+			get_parameters.push_back (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
+			get_parameters.push_back (create {CONSTANT_INT}.make (create {INTEGER_TYPE}.make (ctx, 64), 0))
 			create get_inst.make_inbounds_index_list (str, get_parameters)
 			create call_arguments.make
 			call_arguments.push_back (get_inst)
