@@ -9,7 +9,7 @@ class
 
 inherit
 
-	PASS
+	IMMUTABLE_PASS
 
 create
 
@@ -28,7 +28,23 @@ feature {NONE}
 			item := ctor_module_external (m.item)
 		end
 
+feature
+
+	get_type_alloc_size (ty: TYPE_L): NATURAL_64
+		do
+			Result := get_type_alloc_size_external (item, ty.item)
+		end
+
 feature {NONE} -- Externals
+
+	get_type_alloc_size_external (item_a: POINTER; ty: POINTER): NATURAL_64
+		external
+			"C++ inline use %"llvm/Target/TargetData.h%""
+		alias
+			"[
+				return ((llvm::TargetData *)$item_a)->getTypeAllocSize ((llvm::Type *)$ty);
+			]"
+		end
 
 	ctor_module_external (module: POINTER): POINTER
 		external

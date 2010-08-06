@@ -20,7 +20,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/IntrinsicInst.h%""
 		alias
 			"[
-				return llvm::Intrinsic::getDeclaration ((llvm::Module *)$m, $id, $tys, $num_tys)
+				return llvm::Intrinsic::getDeclaration ((llvm::Module *)$m, (llvm::Intrinsic::ID)$id, (const llvm::Type **)$tys, $num_tys)
 			]"
 		end
 

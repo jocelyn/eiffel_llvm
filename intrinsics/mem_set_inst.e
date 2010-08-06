@@ -38,7 +38,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/IntrinsicInst.h%""
 		alias
 			"[
-				return llvm::Intrinsic::ID.memset
+				return llvm::Intrinsic::memset;
 			]"
 		end
 
