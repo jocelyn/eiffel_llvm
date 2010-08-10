@@ -35,7 +35,21 @@ feature
 			Result := get_type_alloc_size_external (item, ty.item)
 		end
 
+	get_type_alloc_size_in_bits (ty: TYPE_L): NATURAL_64
+		do
+			Result := get_type_alloc_size_in_bits_external (item, ty.item)
+		end
+
 feature {NONE} -- Externals
+
+	get_type_alloc_size_in_bits_external (item_a: POINTER; ty: POINTER): NATURAL_64
+		external
+			"C++ inline use %"llvm/Target/TargetData.h%""
+		alias
+			"[
+				return ((llvm::TargetData *)$item_a)->getTypeAllocSizeInBits ((llvm::Type *)$ty);
+			]"
+		end
 
 	get_type_alloc_size_external (item_a: POINTER; ty: POINTER): NATURAL_64
 		external
