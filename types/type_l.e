@@ -123,6 +123,11 @@ feature -- Casting
 			create Result.make_from_pointer (cast_to_pointer_type_external (item))
 		end
 
+	cast_to_function_type: FUNCTION_TYPE
+		do
+			create Result.make_from_pointer (cast_to_function_type_external (item))
+		end
+
 feature
 
 	debug_output: STRING_8
@@ -141,7 +146,7 @@ feature -- Casting queries
 			"C++ inline use %"llvm/Type.h%""
 		alias
 			"[
-				((std::string *)$target)->assign (((llvm::Type *)$item_a)->getDescription ());		
+				((std::string *)$target)->assign (((llvm::Type *)$item_a)->getDescription ());
 			]"
 		end
 
@@ -223,6 +228,15 @@ feature -- Casting queries
 		alias
 			"[
 				return ((llvm::Type *)$item_a)->isAbstract ();
+			]"
+		end
+
+	cast_to_function_type_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/DerivedTypes.h%", %"llvm/Support/Casting.h%""
+		alias
+			"[
+				return llvm::cast <llvm::FunctionType *> ((llvm::Type *)$item_a);
 			]"
 		end
 
