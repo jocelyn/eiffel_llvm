@@ -25,11 +25,25 @@ feature
 			create Result.make_from_pointer (get_raw_type_external (item))
 		end
 
+	set_name (name: TWINE)
+		do
+			set_name_external (item, name.item)
+		end
+
 feature
 
 	item: POINTER
 
 feature -- Casting queries
+
+	set_name_external (item_a: POINTER; name: POINTER)
+		external
+			"C++ inline use %"llvm/Value.h%""
+		alias
+			"[
+				((llvm::Value *)$item_a)->setName (*((llvm::Twine *)$name));
+			]"
+		end
 
 	class_of_function: BOOLEAN
 		do
