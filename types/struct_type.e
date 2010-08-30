@@ -13,6 +13,7 @@ inherit
 create
 
 	make,
+	make_from_pointer,
 	make_packed
 
 feature {NONE}
@@ -46,7 +47,7 @@ feature {NONE} -- Externals
 			"C++ inline use %"llvm/DerivedTypes.h%""
 		alias
 			"[
-				return (EIF_POINTER)((llvm::StructType *)$item_a)->getTypeAtIndex ($idx);		
+				return (EIF_POINTER)((llvm::StructType *)$item_a)->getTypeAtIndex ($idx);
 			]"
 		end
 

@@ -128,6 +128,11 @@ feature -- Casting
 			create Result.make_from_pointer (cast_to_function_type_external (item))
 		end
 
+	cast_to_struct_type: STRUCT_TYPE
+		do
+			create Result.make_from_pointer (cast_to_struct_type_external (item))
+		end
+
 feature
 
 	debug_output: STRING_8
@@ -264,6 +269,15 @@ feature -- Casting queries
 		alias
 			"[
 				return llvm::cast <llvm::OpaqueType *> ((llvm::Type *)$item_a);
+			]"
+		end
+
+	cast_to_struct_type_external (item_a: POINTER): POINTER
+		external
+			"C++ inline use %"llvm/DerivedTypes.h%", %"llvm/Support/Casting.h%""
+		alias
+			"[
+				return llvm::cast <llvm::StructType *> ((llvm::Type *)$item_a);
 			]"
 		end
 
