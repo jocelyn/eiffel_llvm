@@ -40,7 +40,23 @@ feature {NONE}
 			item := make_initializer_name_thread_local_external (ty.item, is_constant, linkage, initializer.item, name.item, thread_local)
 		end
 
+feature
+
+	set_initializer (init_val: CONSTANT)
+		do
+			set_initializer_external (item, init_val.item)
+		end
+
 feature {NONE} -- Externals
+
+	set_initializer_external (item_a: POINTER; init_val: POINTER)
+		external
+			"C++ inline use %"llvm/GlobalVariable.h%""
+		alias
+			"[
+				((llvm::GlobalVariable *)$item_a)->setInitializer ((llvm::Constant *)$init_val);
+			]"
+		end
 
 	make_external (ty: POINTER; is_constant: BOOLEAN; linkage: INTEGER_32): POINTER
 		external

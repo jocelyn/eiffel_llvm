@@ -124,12 +124,28 @@ feature
 			set_target_triple_external (item, t_ref.item)
 		end
 
+	add_type_name (name: STRING_REF; ty: TYPE_L)
+		local
+			already_there: BOOLEAN
+		do
+			already_there := add_type_name_external (item, name.item, ty.item)
+		end
+
 	print (os: RAW_OSTREAM)
 		do
 			print_external (item, os.item)
 		end
 
 feature {NONE} -- Externals
+
+	add_type_name_external (item_a: POINTER; name: POINTER; ty: POINTER): BOOLEAN
+		external
+			"C++ inline use %"llvm/Module.h%""
+		alias
+			"[
+				return ((llvm::Module *)$item_a)->addTypeName (*((llvm::StringRef *)$name), (llvm::Type *)$ty);	
+			]"
+		end
 
 	print_external (item_a: POINTER; os: POINTER)
 		external

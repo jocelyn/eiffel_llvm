@@ -120,6 +120,33 @@ declare i32 @puts(i8*)
 
 ]"
 
+	test_type_naming
+		local
+			ctx: LLVM_CONTEXT
+			module: MODULE
+			v: TYPE_VECTOR
+			s: STRUCT_TYPE
+			output: RAW_STRING_OSTREAM
+		do
+			create ctx.default_create
+			create module.make ("test.o", ctx)
+			create v.make
+			v.push_back (create {INTEGER_TYPE}.make (ctx, 32))
+			create s.make (ctx, v)
+			module.add_type_name ("test_type", s)
+			create output.make
+			module.print (output)
+			assert ("Output matches", output.string ~ test_type_naming_expected)
+		end
+
+	test_type_naming_expected: STRING =
+"[
+; ModuleID = 'test.o'
+
+%test_type = type { i32 }
+
+]"
+
 end
 
 

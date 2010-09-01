@@ -12,7 +12,8 @@ inherit
 
 create
 
-	get_bit_cast
+	get_bit_cast,
+	get_get_element_ptr_single
 
 feature {NONE}
 
@@ -21,7 +22,21 @@ feature {NONE}
 			item := get_bit_cast_external (c.item, ty.item)
 		end
 
+	get_get_element_ptr_single (c: CONSTANT; idx: SPECIAL [POINTER])
+		do
+			item := get_get_element_ptr_external (c.item, idx.base_address, idx.count.to_natural_32)
+		end
+
 feature {NONE} -- Externals
+
+	get_get_element_ptr_external (c: POINTER; idx_list: POINTER; idx_count: NATURAL_32): POINTER
+		external
+			"C++ inline use %"llvm/Constants.h%", <vector>"
+		alias
+			"[
+				return llvm::ConstantExpr::getGetElementPtr ((llvm::Constant *)$c, (llvm::Constant **)$idx_list, $idx_count);
+			]"
+		end
 
 	get_bit_cast_external (c: POINTER; ty: POINTER): POINTER
 		external
